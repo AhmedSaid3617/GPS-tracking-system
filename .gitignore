@@ -1,3 +1,12 @@
 UART/startup_TM4C123.s
-*.htm
-*.uvproj
+UART/*.htm
+UART/*.uvproj
+UART/*.d
+UART/startup_tm4c123.lst
+UART/*.o
+UART/uart_test_Target 1.dep
+UART/uart_test.axf
+UART/uart_test.crf
+UART/uart_test.lnp
+UART/uart_test.map
+UART/uart.crf

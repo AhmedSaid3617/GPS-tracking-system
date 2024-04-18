@@ -10,3 +10,6 @@ UART/uart_test.crf
 UART/uart_test.lnp
 UART/uart_test.map
 UART/uart.crf
+UART/uart_test.uvgui.saida
+UART/uart_test.uvopt
+UART/uart_test_uvproj.bak

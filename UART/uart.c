@@ -24,7 +24,7 @@ void UART0_Init(int Baud_rate)
   UART0_IBRD_R= (int) (SYSTEM_CLCK/(Baud_rate*16));
   UART0_IFLS_R= ((SYSTEM_CLCK/(Baud_rate*16))-(int) (SYSTEM_CLCK/(Baud_rate*16)))*64;
   UART0_LCRH_R =0x70;                                        // Set data length to 8 bits        //one stop //fifos         // and no parity
-  UART0_CTL_R |= 0x01;                                                 // Enable UART0
+  UART0_CTL_R |= 0x301;                                                 // Enable UART0
 }
 void UART1_Init(int Baud_rate)
 {
@@ -49,5 +49,22 @@ void UART1_Init(int Baud_rate)
   UART1_IBRD_R= (int) (SYSTEM_CLCK/(Baud_rate*16));
   UART1_IFLS_R= ((SYSTEM_CLCK/(Baud_rate*16))-(int) (SYSTEM_CLCK/(Baud_rate*16)))*64;
   UART1_LCRH_R =0x70;                                        // Set data length to 8 bits        //one stop //fifos         // and no parity
-  UART1_CTL_R |= 0x01;                                                 // Enable UART0
+  UART1_CTL_R |= 0x301;                                                 // Enable UART0
+}
+
+
+void UART0_SendChar(char data) {
+  // Wait until the transmit FIFO is not full
+  while ((UART0_FR_R & 0x20) != 0) {}
+
+  // Send the character
+  UART0_DR_R = data;
+}
+
+char UART0_GetChar(void) {
+  // Wait until the receive FIFO is not empty
+  while ((UART0_FR_R & 0x10) != 0) {}
+
+  // Receive the character
+  return (char)(UART0_DR_R & 0xFF);
 }

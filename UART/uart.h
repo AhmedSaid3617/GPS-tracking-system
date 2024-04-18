@@ -167,3 +167,5 @@
 
 void UART0_Init(int Baud_rate);
 void UART1_Init(int Baud_rate);
+void UART0_SendChar(char data);
+char UART0_GetChar(void) ;

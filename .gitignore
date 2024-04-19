@@ -13,3 +13,5 @@ UART/uart.crf
 UART/uart_test.uvgui.saida
 UART/uart_test.uvopt
 UART/uart_test_uvproj.bak
+UART/uart_test_uvopt.bak
+UART/uart_test.uvgui_saida.bak

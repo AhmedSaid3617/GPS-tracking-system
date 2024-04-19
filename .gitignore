@@ -1,3 +1,4 @@
+*.json
 UART/startup_TM4C123.s
 UART/*.htm
 UART/*.uvproj
@@ -15,3 +16,4 @@ UART/uart_test.uvopt
 UART/uart_test_uvproj.bak
 UART/uart_test_uvopt.bak
 UART/uart_test.uvgui_saida.bak
+

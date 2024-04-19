@@ -2,15 +2,14 @@
 
 int main()
 {
-
+    int i;
     UART0_Init(9600);
-
     while (1)
     {
-        int i;
-        UART0_SendChar('A');
 
-        for (i = 0; i < 10000; i++)
+        UART_SendByte(UART0, 'f');
+
+        for (i = 0; i < 1000000; i++)
         {
         }
     }

@@ -11,7 +11,7 @@ void UART0_Init(int Baud_rate)
 
   // Wait for the clocks to be ready
   while ((SYSCTL_PRGPIO_R & 0x01) == 0) {}  // Check bit 0 for Port A
-  while ((SYSCTL_PRUART_R & (0x01)) == 0) {}  // Check bit 0 for UART0
+  //while ((SYSCTL_PRUART_R & (0x01)) == 0) {}  // Check bit 0 for UART0
 
   // Configure PA0 (RX) and PA1 (TX) as UART pins
   GPIO_PORTA_AFSEL_R |= (1 << 0) | (1 << 1);   // Set RX and TX to alternate function

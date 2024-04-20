@@ -25,7 +25,7 @@
 #define PF04_mask 0x11
 #define PF_mask 0x20
 #define PF_SW1_mask 0x10
-#define PF_SW2_mask
+#define PF_SW2_mask 0x01
 
 // Like Lab 3
 // Initialize port F so that built-in switched are input, and built-in LEDs are output.

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "tm4c123gh6pm.h": "c",
+        "stdint.h": "c",
+        "gpio.h": "c"
+    }
+}

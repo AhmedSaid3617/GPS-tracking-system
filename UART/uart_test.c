@@ -3,15 +3,19 @@
 int main()
 {
     int i;
+    uint8_t received;
+    uint8_t array[100];
+    uint8_t* array_pointer = &array[0];
     UART0_Init(9600);
     while (1)
     {
-
-        UART_SendByte(UART0, 'f');
-
-        for (i = 0; i < 1000000; i++)
-        {
+        // Try to receive a byte and store it in the array.
+        if(UART_ReceiveByte(UART0, array_pointer)){
+            // If a byte is received, send it and increment the pointer.
+            UART_SendByte(UART0, *array_pointer);
+            array_pointer++;
         }
+
     }
 
     return 1;

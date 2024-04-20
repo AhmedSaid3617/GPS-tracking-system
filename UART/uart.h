@@ -17,7 +17,7 @@
     void UART2_Init(int Baud_rate);
 
     void UART_SendByte(uint32_t base, uint8_t data);
-    uint8_t UART_ReceiveByte(uint32_t base);
+    uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination);
 
     char UART0_GetChar(void) ;
     char UART1_GetChar(void);

@@ -87,47 +87,28 @@ void UART2_Init(int Baud_rate)
   UART2_CTL_R |= 0x301; // Enable UART0
 }
 
-void UART_SendByte(uint32_t base, uint8_t data)
+void UART_SendByte(uint32_t UART_base, uint8_t data)
 {
   // Wait until the transmit FIFO is not full
-  while ((*(volatile uint32_t *)(base + 0x18) & 0x20) != 0)
-  {
-  }
+  while ((*(volatile uint32_t *)(UART_base + 0x18) & 0x20) != 0) {}
 
   // Send the character
-  *(volatile uint32_t *)(base + 0x00) = data;
+  *(volatile uint32_t *)(UART_base + 0x00) = data;
 }
 
-uint8_t UART_ReceiveByte(uint32_t base)
+uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination)
 {
+  int i;
 
-  // Wait until the transmit FIFO is not full
-  while ((*(volatile uint32_t *)(base + 0x18) & 0x10) != 0)
+  for (i = 0; i < 10000; i++)
   {
+    if ((*(volatile uint32_t *)(UART_base + 0x18) & 0x10) == 0) // Check if FIFO is full.
+    {
+      *destination = (char)(*(volatile uint32_t *)(UART_base + 0x00) & 0xFF); // Store received byte.
+      return (uint16_t)1;  // Return success.
+    }
   }
 
-  // Receive the character
-  return (char)(*(volatile uint32_t *)(base + 0x00) & 0xFF);
-}
-
-char UART0_GetChar(void)
-{
-  // Wait until the receive FIFO is not empty
-  while ((UART0_FR_R & 0x10) != 0)
-  {
-  }
-
-  // Receive the character
-  return (char)(UART0_DR_R & 0xFF);
-}
-
-char UART1_GetChar(void)
-{
-  // Wait until the receive FIFO is not empty
-  while ((UART1_FR_R & 0x10) != 0)
-  {
-  }
-
-  // Receive the character
-  return (char)(UART1_DR_R & 0xFF);
+  // Retrun fail.
+  return (uint16_t)0;
 }

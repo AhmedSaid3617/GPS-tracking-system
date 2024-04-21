@@ -44,7 +44,7 @@ void EEPROM_Set_Block_And_Offset(unsigned int block, unsigned int offset) {
 /*
  * Write data at pseudo-address [address] in EEPROM
  * */
-unsigned long EEPROM_Read(int address, unsigned long value) {
+unsigned long EEPROM_Read(int address) {
     // TODO: convert address into block and offset
     EEPROM_Set_Block_And_Offset(0, address);
 

@@ -66,6 +66,8 @@ typedef union EESUPP_TypeDef {
     unsigned long value;
 } EESUPP_TypeDef;
 
+unsigned long EEPROM_Read(int address);
+void EEPROM_Write(int address, unsigned long value);
 EEPROM_Init_Status EEPROM_Init();
 
 

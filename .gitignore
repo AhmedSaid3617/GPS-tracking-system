@@ -20,3 +20,7 @@ UART/uart_test.uvgui_saida.bak
 main.elf
 build/main.o
 build/startup_ARMCM4.o
+main.elf
+build/
+.idea/
+.vscode

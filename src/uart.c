@@ -24,7 +24,7 @@ void UART0_Init(int Baud_rate)
   
   // Set baud rate
   UART0_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
-  UART0_IFLS_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
+  UART0_FBRD_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
   UART0_LCRH_R = 0x70;  // Set data length to 8 bits        //one stop //fifos         // and no parity
   UART0_CTL_R |= 0x301; // Enable UART0
 }

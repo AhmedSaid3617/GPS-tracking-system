@@ -17,3 +17,6 @@ UART/uart_test_uvproj.bak
 UART/uart_test_uvopt.bak
 UART/uart_test.uvgui_saida.bak
 
+main.elf
+build/main.o
+build/startup_ARMCM4.o

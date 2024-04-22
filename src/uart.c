@@ -1,5 +1,4 @@
 #include "uart.h"
-#include "tm4c123gh6pm.h"
 
 #define SYSTEM_CLCK 16000000
 

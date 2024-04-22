@@ -1,5 +1,6 @@
 #ifndef _UART_H_
     #include <stdint.h>
+    #include "tm4c123gh6pm.h"
 
     #define _UART_H_
 

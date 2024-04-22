@@ -51,10 +51,11 @@ void UART1_Init(int Baud_rate)
 
   // Set baud rate
   UART1_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
-  UART1_IFLS_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
+  UART1_FBRD_R= ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
   UART1_LCRH_R = 0x70;  // Set data length to 8 bits        //one stop //fifos         // and no parity
   UART1_CTL_R |= 0x301; // Enable UART1
 }
+
 
 void UART2_Init(int Baud_rate)
 {
@@ -70,6 +71,8 @@ void UART2_Init(int Baud_rate)
 
   // Configure PD6 (RX) and PD7 (TX) as UART pins
 
+  GPIO_PORTD_LOCK_R = GPIO_LOCK_KEY;
+  GPIO_PORTD_CR_R |= 0xFF;
   GPIO_PORTD_DEN_R |= (1 << 6) | (1 << 7);               // Enable digital I/O for RX and TX pins
   GPIO_PORTD_AFSEL_R |= (1 << 6) | (1 << 7);             // Set RX and TX to alternate function
   GPIO_PORTD_PCTL_R &= (GPIO_PORTD_PCTL_R & 0x00FFFFFF); // Clear PCTL bits for RX and TX
@@ -78,9 +81,38 @@ void UART2_Init(int Baud_rate)
 
   // Set baud rate
   UART2_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
-  UART2_IFLS_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
+  UART2_FBRD_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
   UART2_LCRH_R = 0x70;  // Set data length to 8 bits        //one stop //fifos         // and no parity
   UART2_CTL_R |= 0x301; // Enable UART0
+}
+
+void UART7_Init(int Baud_rate)
+{
+  // Enable the clock for UART0
+  SYSCTL_RCGCUART_R |= (1<<7); // Set bit 0 for UART0
+
+  // Enable clock for GPIO Port A
+  SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R4; // Set bit 0 for GPIO Port E
+
+  // Wait for the clocks to be ready
+  while ((SYSCTL_PRGPIO_R & 0x10) == 0) {} // Check bit 0 for Port A
+  //while ((SYSCTL_PRUART_R & (1<<7)) == 0) {}  // Check bit 0 for UART0
+
+  // Configure PE0 (RX) and PE1 (TX) as UART pins
+  
+  GPIO_PORTE_DEN_R |= (1 << 0) | (1 << 1);                               // Enable digital I/O for RX and TX pins
+  GPIO_PORTE_AFSEL_R |= (1 << 0) | (1 << 1);                             // Set RX and TX to alternate function
+  GPIO_PORTE_PCTL_R &= ~((GPIO_PORTE_PCTL_R & (0xF << 0)) | (0xF << 4)); // Clear PCTL bits for RX and TX
+  GPIO_PORTE_PCTL_R |= (1 << 0) | (1 << 4);                              // Set PCTL bits for RX and TX
+  GPIO_PORTE_AMSEL_R &= ~(0x03);                                         // Clear analog mode for RX and TX pins
+  
+  // Set baud rate
+  
+  UART7_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
+  UART7_FBRD_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
+  UART7_LCRH_R = 0x70;  // Set data length to 8 bits        //one stop //fifos         // and no parity
+  UART7_CTL_R |= 0x301; // Enable UART7
+  
 }
 
 void UART_SendByte(uint32_t UART_base, uint8_t data)

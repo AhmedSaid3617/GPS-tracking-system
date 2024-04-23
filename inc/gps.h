@@ -1,0 +1,6 @@
+#ifndef GPS_TRACKING_SYSTEM_GPS_H
+#define GPS_TRACKING_SYSTEM_GPS_H
+
+void GPS_Start();
+
+#endif //GPS_TRACKING_SYSTEM_GPS_H

@@ -1,0 +1,7 @@
+#ignore Clion files
+
+*.idea
+
+#ignore vscode files
+
+*.vscode

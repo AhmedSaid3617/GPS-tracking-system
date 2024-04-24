@@ -129,11 +129,11 @@ void GPIOF_default_init(void)
 }
 unsigned char read_sw1(void)
 {
-    return GPIO_PORTF_DATA_R & PF_SW1_mask;
+    return (~GPIO_PORTF_DATA_R) & PF_SW1_mask;
 }
 unsigned char read_sw2(void)
 {
-    return GPIO_PORTF_DATA_R & PF_SW2_mask;
+    return (~GPIO_PORTF_DATA_R) & PF_SW2_mask;
 }
 // if value 0 turnoff else turn on
 void write_red_led(unsigned char value)

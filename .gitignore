@@ -1,3 +1,5 @@
 main.elf
 build/
 .idea/
+.vscode/launch.json
+.vscode/settings.json

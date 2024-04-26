@@ -4,4 +4,7 @@
 
 #ignore vscode files
 
-*.vscode
+*.vscodemain.elf
+build/
+.idea/
+.vscode

@@ -5,12 +5,12 @@ vpath %.c src
 vpath %.s src
 
 #CFLAGS=-ggdb -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -mthumb -mcpu=cortex-m3
-CFLAGS=-ggdb -D__NO_SYSTEM_INIT -D__START=main -nostdlib -mthumb -mcpu=cortex-m4 -mlittle-endian -march=armv7e-m -O2
+CFLAGS=-ggdb -D__NO_SYSTEM_INIT -D__START=main -nostdlib -mthumb -mcpu=cortex-m4 -mlittle-endian -march=armv7e-m -O0
 
 BUILD=build
 
 # OBJS is the list of object target files to compile
-OBJS=startup_ARMCM4.o uart.o main.o
+OBJS=startup_ARMCM4.o gpio.o uart.o main.o
 
 # Add library paths for compiler
 #CFLAGS+= -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -Iinc/

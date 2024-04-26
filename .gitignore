@@ -20,7 +20,15 @@ UART/uart_test.uvgui_saida.bak
 main.elf
 build/main.o
 build/startup_ARMCM4.o
-main.elf
+#ignore Clion files
+
+*.idea
+
+#ignore vscode files
+
+*.vscodemain.elf
 build/
 .idea/
 .vscode
+main.elf
+.vscode/settings.json

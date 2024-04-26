@@ -1,21 +1,31 @@
 #include "gpio.h"
 #include "tm4c123gh6pm.h"
-int main(){
-    int x;
-    GPIO_init((unsigned long)GPIO_PORTF_DATA_BITS_R, 0x11, 0xE);
-    GPIO_write_pin((unsigned long)GPIO_PORTF_DATA_BITS_R, 1, 1);
-    x =	(int)GPIO_read_pin((unsigned long)GPIO_PORTF_DATA_BITS_R, 1);
-    unsigned char button = 1;
-	GPIOF_default_init();
-	while(1){
-	if (read_sw1() & read_sw2()){
-		write_red_led(button);
-	}
-	else if(!read_sw1() & read_sw2()){
-		write_blue_led(button);
-	}
-	else if (read_sw1() & !read_sw2()){
-		write_green_led(button);
-	}
-}
+int main()
+{
+
+    GPIO_init((unsigned long)GPIOF, 0x11, 0xE);
+    //GPIO_write_pin((unsigned long)GPIOF, 3, 1);
+
+    //GPIOF_default_init();
+    while (1)
+    {
+        if (!GPIO_read_pin(GPIOF, 4) && !GPIO_read_pin(GPIOF, 0))
+        {
+            GPIO_write_pin((unsigned long)GPIOF, 3, 0);
+            GPIO_write_pin((unsigned long)GPIOF, 2, 0);
+            GPIO_write_pin((unsigned long)GPIOF, 1, 1);
+        }
+        else if (GPIO_read_pin(GPIOF, 4) && !GPIO_read_pin(GPIOF, 0))
+        {
+            GPIO_write_pin((unsigned long)GPIOF, 3, 0);
+            GPIO_write_pin((unsigned long)GPIOF, 1, 0);
+            GPIO_write_pin((unsigned long)GPIOF, 2, 1);
+        }
+        else if (!GPIO_read_pin(GPIOF, 4) && GPIO_read_pin(GPIOF, 0))
+        {
+            GPIO_write_pin((unsigned long)GPIOF, 1, 0);
+            GPIO_write_pin((unsigned long)GPIOF, 2, 0);
+            GPIO_write_pin((unsigned long)GPIOF, 3, 1);
+        }
+    } 
 }

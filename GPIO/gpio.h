@@ -35,16 +35,25 @@
 #define AMSEL_Offset 0x528
 #define PCTL_Offset 0x52C
 #define DATA_Offset 0x3FC
+
+#define GPIOA 0x40004000
+#define GPIOB 0x40005000
+#define GPIOC 0x40006000
+#define GPIOD 0x40007000
+#define GPIOE 0x40024000
+#define GPIOF 0x40025000
+
+// Initialize port F so that built-in switched are input, and built-in LEDs are output.
 void GPIOF_default_init();
+
 // return data & mask
 unsigned char read_sw1();
 unsigned char read_sw2();
+
 // if value 0 turnoff else turn on
 void write_red_led(unsigned char value);
 void write_blue_led(unsigned char value);
 void write_green_led(unsigned char value);
-// Like Lab 3
-// Initialize port F so that built-in switched are input, and built-in LEDs are output.
 
 // General purpose initialize for any port
 // GPIOPort is the base address of the port to be initialized

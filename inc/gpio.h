@@ -1,5 +1,7 @@
 #ifndef _GPIO_H_
 
+#include "tm4c123gh6pm.h"
+
 #define _GPIO_H_
 #define GPIO_PORTF_DATA_R (*((volatile unsigned long *)0x400253FC))
 #define GPIO_PORTF_DIR_R (*((volatile unsigned long *)0x40025400))

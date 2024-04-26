@@ -2,6 +2,15 @@
     "files.associations": {
         "tm4c123gh6pm.h": "c",
         "stdint.h": "c",
-        "gpio.h": "c"
-    }
+        "gpio.h": "c",
+        "main.h": "c"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "e:\\College\\Junior\\Second Term\\Intro to Embedded Systems\\Project\\GPS-tracking-system",
+            "binaryPath": "e:\\College\\Junior\\Second Term\\Intro to Embedded Systems\\Project\\GPS-tracking-system\\main.elf",
+            "binaryArgs": []
+        }
+    ]
 }

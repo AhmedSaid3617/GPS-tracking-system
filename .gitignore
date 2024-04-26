@@ -8,3 +8,5 @@
 build/
 .idea/
 .vscode
+main.elf
+.vscode/settings.json

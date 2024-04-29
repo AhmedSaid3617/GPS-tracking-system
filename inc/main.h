@@ -5,4 +5,6 @@
 #include "uart.h"
 #include "gps.h"
 
+#define COORDINATES_SIZE 250
+
 #endif //GPS_TRACKING_SYSTEM_MAIN_H

@@ -24,6 +24,6 @@
     char UART0_GetChar(void) ;
     char UART1_GetChar(void);
 
-    
+    void UART_printf(char *buffer, uint32_t UART_base);
 
 #endif

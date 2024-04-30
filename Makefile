@@ -12,7 +12,7 @@ CFLAGS=-ggdb -D__NO_SYSTEM_INIT -D__START=main -nostdlib -mthumb -mcpu=cortex-m4
 BUILD=build
 
 # OBJS is the list of object target files to compile
-OBJS=startup_ARMCM4.o main.o eeprom.o eeprom_test.o
+OBJS=startup_ARMCM4.o uart.o main.o eeprom.o
 
 # Add library paths for compiler
 #CFLAGS+= -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -Iinc/

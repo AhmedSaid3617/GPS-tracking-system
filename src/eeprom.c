@@ -10,15 +10,17 @@ EEPROM_Init_Status EEPROM_Init() {
 
     while (EEDONE->WORKING == 1);
 
+    if (EESUPP->ERETRY || EESUPP->PERTRY) {
+        return EEPROM_Init_Failed;
+    }
+
     SREEPROM->R0 = 0;
 
     DELAY_6_CYCLES();
 
     while (EEDONE->WORKING == 1);
 
-    if (EESUPP->ERETRY || EESUPP->PERTRY) {
-        return EEPROM_Init_Failed;
-    }
+    
 
     return EEPROM_Init_Successfull;
 }

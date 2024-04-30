@@ -1,31 +1,32 @@
 #include "main.h"
 
-<<<<<<< HEAD
-int main() {
-    
-=======
 int main()
 {
-    int i;
-    uint8_t received;
-    uint8_t array[100];
-    uint8_t *array_pointer = &array[0];
-    UART1_Init(9600);
-    while (1)
+    unsigned long i;
+    unsigned char * volatile c = (unsigned char*)&i;
+    
+    UART0_Init(9600);
+    if (EEPROM_Init() != EEPROM_Init_Failed)
     {
-        // UART_SendByte(UART1, 'S');
-
-        // Try to receive a byte and store it in the array.
-        if (UART_ReceiveByte(UART1, &received))
+        while (1)
         {
-            for (i = 0; i < 100000; i++)
-            {
-                /* code */
-            }
-            UART_SendByte(UART1, received);
+            EEPROM_Write(10, (unsigned long)'B');
+            i = EEPROM_Read(10);
+            
+            UART_SendByte(UART0, *c);
+
+            for (int i = 0; i < 100000; i++);
         }
     }
-
-    return 1;
->>>>>>> UART_gcc_test
+    else
+    {
+        while (1)
+        {
+            UART_SendByte(UART0, 'F');
+            for (int i = 0; i < 100000; i++)
+                ;
+        }
+        
+    }
+    
 }

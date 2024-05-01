@@ -125,15 +125,17 @@ void UART_SendByte(uint32_t UART_base, uint8_t data)
 }
 
 
-void UART_SendFloat(uint32_t UART_base,float data_float)
+void UART_SendFloat(uint32_t UART_base, float data_float)
 {
-	char *bytePtr = (char *)&value;
+  char *bytePtr = (char *)&data_float;
 
-    for (int i = 0; i < 4; i++) 
-	{
-        uart_sendbyte(uart_base, bytePtr[i]);
-    }
+  for (int i = 0; i < 4; i++)
+  {
+    UART_SendByte(UART_base, bytePtr[i]);
+  }
 }
+
+
 
 uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination)
 {

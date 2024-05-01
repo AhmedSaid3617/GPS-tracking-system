@@ -3,19 +3,18 @@
 int main()
 {
     unsigned long i;
-    unsigned char * volatile c = (unsigned char*)&i;
+    unsigned char * volatile to_send = (unsigned char*)&i;
+    char received[4];
+    unsigned long * volatile to_receieve = (unsigned long *)&received;
     
     UART0_Init(9600);
     if (EEPROM_Init() != EEPROM_Init_Failed)
     {
+        //EEPROM_Write(10, 71ul);
         while (1)
         {
-            EEPROM_Write(10, (unsigned long)'B');
             i = EEPROM_Read(10);
-            
-            UART_SendByte(UART0, *c);
-
-            for (int i = 0; i < 100000; i++);
+            UART_SendByte(UART0, *to_send);
         }
     }
     else

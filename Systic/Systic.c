@@ -1,9 +1,7 @@
 #include"tm4c123gh6pm.h"
 #include"Systic.h"
 
-#define SYSTEM_CLCK 16000000
-#define MAX_VALUE 16777215 //0xffffff
-#define TIME_P_CYCLE  (float)MAX_VALUE/(float)SYSTEM_CLCK
+
 
  void Systi_Init()
  {
@@ -16,15 +14,12 @@
 
 void Systic_Delay_ms(unsigned int time_ms)
 {
-    float ratio = time_ms/ (TIME_P_CYCLE * 1000);
-    while(ratio > 1)
-    {
-        wait(MAX_VALUE);
-        ratio--;
-    }
-    
-    unsigned int delay = ratio * MAX_VALUE ;
-    wait(delay);
+    unsigned int i;
+	for(i=0;i< time_ms;i++)
+	{
+		wait(16000); // 1 ms delay
+		
+	}
 }
 
 

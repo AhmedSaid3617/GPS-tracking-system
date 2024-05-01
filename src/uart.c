@@ -132,7 +132,9 @@ void UART_SendFloat(uint32_t UART_base, float data_float)
   for (int i = 0; i < 4; i++)
   {
     UART_SendByte(UART_base, bytePtr[i]);
-  }
+ }
+
+ 
 }
 
 

@@ -124,6 +124,17 @@ void UART_SendByte(uint32_t UART_base, uint8_t data)
   *(volatile uint32_t *)(UART_base + 0x00) = data;
 }
 
+
+void UART_SendFloat(float data_float)
+{
+	char i =0;
+	char data_byte = 0;
+	for(i=0;i<4;i++)
+	{
+		UART_SendByte(UART_base,(char)(data_float>>(i*8)))
+	}
+}
+
 uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination)
 {
   int i;

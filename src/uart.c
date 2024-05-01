@@ -125,7 +125,7 @@ void UART_SendByte(uint32_t UART_base, uint8_t data)
 }
 
 
-void UART_SendFloat(float data_float)
+void UART_SendFloat(uint32_t UART_base,float data_float)
 {
 	char i =0;
 	char data_byte = 0;

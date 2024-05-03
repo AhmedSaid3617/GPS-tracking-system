@@ -11,6 +11,9 @@ char buffer[GPS_BUFFER_SIZE];
 
 int main()
 {
+    float x[5][2] = {{45,100},{45,120},{40,130},{30,140},{30,160}};
+    calculate_total_distance (x, 5);
+
     while (1)
     {
         // Uart_fill_buffer
@@ -28,11 +31,12 @@ int main()
 }
 
 //
-void calculate_total_distance (float x[][2], size){
+void calculate_total_distance (float x[][2],int size){
     float sum = 0;
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size - 1; i++){
         sum += 2*6371*asin(sqrt(pow(sin((x[i+1][0]-x[i][0])*(M_PI/360)),2)+cos(x[i][0]*(M_PI/180))*cos(x[i+1][0]*(M_PI/180))*pow(sin((x[i+1][1]-x[i][1])*(M_PI/360)),2)));
     }
+    printf("%.6f", sum);
 }
 
 void computer_upload_isr(){

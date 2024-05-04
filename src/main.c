@@ -1,26 +1,22 @@
 #include "main.h"
 
-int main()
-{
-    int i;
-    uint8_t received;
-    uint8_t array[100];
-    uint8_t *array_pointer = &array[0];
-    UART1_Init(9600);
-    while (1)
-    {
-        // UART_SendByte(UART1, 'S');
+int main() {
+    UART0_Init(9600);
+    UART_SendByte(UART0, 'A');
+    I2C_Init();
+//    OLED_I2C_Init();
+//    OLED_I2C_Write(0, 0, "Hi");
 
-        // Try to receive a byte and store it in the array.
-        if (UART_ReceiveByte(UART1, &received))
-        {
-            for (i = 0; i < 100000; i++)
-            {
-                /* code */
-            }
-            UART_SendByte(UART1, received);
-        }
-    }
+    char data[3] = {0xAA, 0xAA, 0xAA};
+    char *ptr = data;
 
-    return 1;
+    I2C0_Write_Multiple(0x3C, data, 3);
+
+//    while(1) {
+//        for(int i = 0; i < 10000; ++i);
+//        I2C_Start(0x3C);
+//        I2C_Send(0xAA);
+//        I2C_Send(0xAA);
+//        I2C_End();
+//    }
 }

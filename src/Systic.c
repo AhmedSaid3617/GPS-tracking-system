@@ -29,6 +29,6 @@ void Systic_Delay_ms(unsigned int time_ms)
  {
     NVIC_ST_RELOAD_R = delay-1;
     NVIC_ST_CURRENT_R = 0x00;
-    while (NVIC_ST_CTRL_R & 0x10){}
+    while ((NVIC_ST_CTRL_R & 0x10000) == 0){}
     
  }

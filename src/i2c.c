@@ -29,32 +29,48 @@ void I2C_Start(char address) {
     current_address = address;
 }
 
+void I2C0_Write_First_In_Sequence(int slave_address, char data) {
+    I2C0_MSA_R = slave_address << 1;
+    I2C0_MDR_R = data;
+    I2C0_MCS_R = 3; // RUN, START
+    while (I2C0_MCS_R & 1);
+}
+
+void I2C0_Write_Last_In_Sequence(int slave_address, char data) {
+    I2C0_MSA_R = slave_address << 1;
+    I2C0_MDR_R = data;
+    I2C0_MCS_R = 5; // RUN, START
+    while (I2C0_MCS_R & 1);
+}
+
+void I2C0_Write_Single(int slave_address, char data) {
+    I2C0_MSA_R = slave_address << 1;
+    I2C0_MDR_R = data;
+    I2C0_MCS_R = 7; // RUN, START, STOP if bytes_count
+    while (I2C0_MCS_R & 1);
+}
+
+void I2C0_Write_In_Sequence(char slave_address, char data) {
+    I2C0_MSA_R = slave_address << 1;
+    I2C0_MDR_R = data;
+    I2C0_MCS_R = 1; // RUN
+    while (I2C0_MCS_R & 1);
+}
+
 void I2C0_Write_Multiple(int slave_address, char* ptr, int bytes_count)
 {
     if (bytes_count-- > 1) {
-        I2C0_MSA_R = slave_address << 1;
-        I2C0_MDR_R = *ptr++;
-        I2C0_MCS_R = 3; // RUN, START
-        while (I2C0_MCS_R & 1);
+        I2C0_Write_First_In_Sequence(slave_address, *ptr++);
     } else {
-        I2C0_MSA_R = slave_address << 1;
-        I2C0_MDR_R = *ptr;
-        I2C0_MCS_R = 7; // RUN, START, STOP if bytes_count
-        while (I2C0_MCS_R & 1);
+        I2C0_Write_Single(slave_address, *ptr);
     }
 
     while (bytes_count-- > 1)
     {
-        I2C0_MSA_R = slave_address << 1;
-        I2C0_MDR_R = *ptr++;
-        I2C0_MCS_R = 1; // RUN
-        while (I2C0_MCS_R & 1);
+        I2C0_Write_In_Sequence(slave_address, *ptr++);
     }
 
-    I2C0_MSA_R = slave_address << 1;
-    I2C0_MDR_R = *ptr;
-    I2C0_MCS_R = 5; // RUN, START, STOP if bytes_count
-    while (I2C0_MCS_R & 1);
+    I2C0_Write_Last_In_Sequence(slave_address, *ptr);
 }
 
 void I2C_Send(char data) {

@@ -19,6 +19,7 @@
     void UART7_Init(int Baud_rate);
 
     void UART_SendByte(uint32_t base, uint8_t data);
+	void UART_SendFloat(uint32_t UART_base,float data_float);
     uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination);
 
     char UART0_GetChar(void) ;

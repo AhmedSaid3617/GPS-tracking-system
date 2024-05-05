@@ -89,5 +89,6 @@ typedef union EESUPP_TypeDef
 unsigned long EEPROM_Read(int address);
 void EEPROM_Write(unsigned int address, unsigned long value);
 EEPROM_Init_Status EEPROM_Init();
+void Save_float_EEPROM(float coordinates[][],int size);
 
 #endif // GPS_TRACKING_SYSTEM_EEPROM_H

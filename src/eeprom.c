@@ -83,3 +83,19 @@ void EEPROM_Write(unsigned int address, unsigned long value)
         EERDWR = value;
     }
 }
+
+void Save_float_EEPROM(float coordinates[][],int size)
+{
+    char i=0,j=0;
+    float f_value = 0;
+    unsigned long *ptr;
+    unsigned int address=1;
+    EEPROM_Write(0,size);  // save the size of the array in address 0 of eeprom
+    for(;i<size;i++)
+    {
+        f_value = coordinates[i][j];
+        ptr = (long*) &f_value;
+        EEPROM_Write((2*i+j)+1 , *ptr);
+
+    }
+}

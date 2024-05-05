@@ -1,6 +1,8 @@
 #ifndef GPS_TRACKING_SYSTEM_EEPROM_H
 #define GPS_TRACKING_SYSTEM_EEPROM_H
 
+#define EEPROM_BLOCK_SIZE 16
+
 // TODO: Insert delay (6 cycles plus function call overhead)
 #define DELAY_6_CYCLES()            \
     {                               \
@@ -16,6 +18,7 @@
         {                           \
         }                           \
     }
+    
 #define EEPROM *(volatile unsigned long *)0x400AF000
 
 #define RCGCEEPROM ((volatile RCGCEEPROM_TypeDef *)0x400FE658)
@@ -84,7 +87,7 @@ typedef union EESUPP_TypeDef
 } EESUPP_TypeDef;
 
 unsigned long EEPROM_Read(int address);
-void EEPROM_Write(int address, unsigned long value);
+void EEPROM_Write(unsigned int address, unsigned long value);
 EEPROM_Init_Status EEPROM_Init();
 
 #endif // GPS_TRACKING_SYSTEM_EEPROM_H

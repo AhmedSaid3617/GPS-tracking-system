@@ -92,10 +92,13 @@ void Save_float_EEPROM(float coordinates[][],int size)
     unsigned int address=1;
     EEPROM_Write(0,size);  // save the size of the array in address 0 of eeprom
     for(;i<size;i++)
-    {
+    for (;j<2;j++){
+        {
         f_value = coordinates[i][j];
         ptr = (long*) &f_value;
         EEPROM_Write((2*i+j)+1 , *ptr);
 
     }
+    }
+
 }

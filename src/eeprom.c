@@ -100,4 +100,6 @@ void Save_float_EEPROM(float coordinates[][2],int number_of_saved_reading)
             EEPROM_Write((2*i+j)+1 , *ptr);
        }
     }
+    }
+
 }

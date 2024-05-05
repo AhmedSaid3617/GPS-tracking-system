@@ -1,5 +1,6 @@
 #include "main.h"
 
+float array[250];
 int main()
 {
     unsigned long i;
@@ -28,4 +29,13 @@ int main()
         
     }
     
+}
+unsigned long read_coordinates(void){
+  unsigned long size=EEPROM_Read(0);
+  for (int i=0 ;i<250;i++){ 
+    unsigned long L=EEPROM_Read(i);
+    float *F=(float *) &L;
+    array[i]=*F;
+    }
+    return size;
 }

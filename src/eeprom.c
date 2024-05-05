@@ -84,18 +84,20 @@ void EEPROM_Write(unsigned int address, unsigned long value)
     }
 }
 
-void Save_float_EEPROM(float coordinates[][],int size)
+void Save_float_EEPROM(float coordinates[][2],int number_of_saved_reading)
 {
-    char i=0,j=0;
+    char i,j;
     float f_value = 0;
     unsigned long *ptr;
-    unsigned int address=1;
-    EEPROM_Write(0,size);  // save the size of the array in address 0 of eeprom
-    for(;i<size;i++)
-    {
-        f_value = coordinates[i][j];
-        ptr = (long*) &f_value;
-        EEPROM_Write((2*i+j)+1 , *ptr);
+    EEPROM_Write(0,number_of_saved_reading);  // save the number of saved readings for the Coordinates (longtude,latitude)
 
+    for(i=0;i<number_of_saved_reading;i++)
+    {
+       for(j=0;j<2;j++)
+       {
+    	    f_value = coordinates[i][j];
+            ptr = (unsigned long*) &f_value;
+            EEPROM_Write((2*i+j)+1 , *ptr);
+       }
     }
 }

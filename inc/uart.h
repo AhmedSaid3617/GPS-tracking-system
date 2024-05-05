@@ -21,9 +21,6 @@
     void UART_SendByte(uint32_t base, uint8_t data);
     uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination);
 
-    char UART0_GetChar(void) ;
-    char UART1_GetChar(void);
-
-    
+    void UART_printf(char *buffer, uint32_t UART_base);
 
 #endif

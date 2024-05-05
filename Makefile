@@ -1,3 +1,4 @@
+SHELL=C:/Windows/System32/cmd.exe
 CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
 
@@ -29,8 +30,6 @@ main.elf: $(OBJS)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $(BUILD)/$@
 
-%.o: %.s
-	$(CC) -c $(CFLAGS) $< -o $(BUILD)/$@
 
 %.o: %.S
 	$(CC) -c $(CFLAGS) $< -o $(BUILD)/$@

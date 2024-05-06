@@ -31,12 +31,12 @@ int main()
 }
 
 //
-void calculate_total_distance (float x[][2],int size){
+float calculate_total_distance (float x[][2],int size){
     float sum = 0;
     for (int i = 0; i < size - 1; i++){
         sum += 2*6371*asin(sqrt(pow(sin((x[i+1][0]-x[i][0])*(M_PI/360)),2)+cos(x[i][0]*(M_PI/180))*cos(x[i+1][0]*(M_PI/180))*pow(sin((x[i+1][1]-x[i][1])*(M_PI/360)),2)));
     }
-    printf("%.6f", sum);
+    return sum*1000;
 }
 
 void computer_upload_isr(){

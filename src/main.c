@@ -1,7 +1,7 @@
 #include "main.h"
 #include <stdio.h>
 
-float array[250];
+//float array[250];
 int main()
 {
   //unsigned long i;
@@ -9,9 +9,9 @@ int main()
   UART0_Init(9600);
   // char received[4];
   // unsigned long * volatile to_receieve = (unsigned long *)&received;
-  //float f = 3.5;
-  //char* output_buffer;
-  //sprintf(output_buffer, "float: %f", f);
+  //double f = 3.5;
+  char output_buffer[50];
+ // sprintf(output_buffer, "float: %d",33);
 
   
 
@@ -21,9 +21,9 @@ int main()
 
   while (1)
   {
-     // UART_printf(output_buffer, UART0);
-    //  UART_SendByte(UART0,'A');
-    void UART_SendFloat( UART0, 3.5);
+      UART_printf(output_buffer, UART0);
+      //UART_SendByte(UART0,'A');
+      // void UART_SendFloat( UART0, 3.5);
      for (int i = 0; i < 100000; i++)
       {
       

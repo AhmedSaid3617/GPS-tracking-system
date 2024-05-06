@@ -84,6 +84,7 @@ void EEPROM_Write(unsigned int address, unsigned long value)
     }
 }
 
+// TODO Rename
 void Save_float_EEPROM(float coordinates[][2],int number_of_saved_reading)/*number_of elements is not the size of the array*/
 {
     char i,j;

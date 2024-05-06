@@ -28,4 +28,6 @@ uint32_t gps_uart_fill_buffer(uint8_t* buffer, uint32_t UART_base);
 
 void gps_uart_send_buffer(uint8_t* buffer, uint32_t UART_base);
 
+int Gps_Parse(char *s,gps_data_t *gps_data_final);
+
 #endif 

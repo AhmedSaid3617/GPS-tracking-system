@@ -23,5 +23,6 @@ build/startup_ARMCM4.o
 main.elf
 build/
 .idea/
+
 .vscode
 

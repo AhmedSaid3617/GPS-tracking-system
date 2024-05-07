@@ -1,8 +1,8 @@
-#ifndef _UART_H_
+#ifndef UART_H
     #include <stdint.h>
     #include "tm4c123gh6pm.h"
 
-    #define _UART_H_
+    #define UART_H
 
     #define UART0 0x4000C000
     #define UART1 0x4000D000
@@ -23,5 +23,6 @@
     uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination);
 
     void UART_printf(char *buffer, uint32_t UART_base);
+    void UART0_print_float(float num);
 
 #endif

@@ -6,5 +6,6 @@
 #include "gps.h"
 
 #define COORDINATES_SIZE 250
+#include "Systic.h"
 
 #endif //GPS_TRACKING_SYSTEM_MAIN_H

@@ -85,20 +85,25 @@ void EEPROM_Write(unsigned int address, unsigned long value)
 }
 
 // TODO Rename
-void Save_float_EEPROM(float coordinates[][2],unsigned long number_of_saved_reading)/number_of elements is not the size of the array/
+void Save_float_EEPROM(float coordinates[][2], unsigned long number_of_saved_reading) // number_of elements is not the size of the array/
 {
-    char i,j;
+    char i, j;
     float f_value = 0;
-    EEPROM_Write(0,number_of_saved_reading);  /save the number of saved readings for the Coordinates (longtude,latitude) not the size of the 2D array/
+    EEPROM_Write(0, number_of_saved_reading); // save the number of saved readings for the Coordinates (longtude,latitude) not the size of the 2D array/
 
-    for(i=0;i<number_of_saved_reading;i++)
+    for (i = 0; i < number_of_saved_reading; i++)
     {
-       for(j=0;j<2;j++)
-       {
-    	    f_value = coordinates[i][j];
+        for (j = 0; j < 2; j++)
+        {
+            f_value = coordinates[i][j];
+            for (int i = 0; i < 10000; i++)
+            {
+                /* code */
+            }
 
-            EEPROM_Write(2*i + j +1 , (unsigned int)(f_value*10000.0));
+            EEPROM_Write(2 * i + j + 1, (unsigned int)(f_value * 1000000.0));
             
-       }
-    }
+            
+        }
+    }
 }

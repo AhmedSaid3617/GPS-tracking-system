@@ -7,26 +7,33 @@ float coordinates[MAX_COORDINATES][2] = {};
 float (*coordinates_ptr)[2] = coordinates;
 float total_distance = 0;
 char buffer[GPS_BUFFER_SIZE];
+char oled_string[100];
+int mode = 0;
 
 int main()
 {
     while (1)
     {
-        // Uart_fill_buffer
-
-        // GPS_parse_and_push
-
-        // calculate_total_distance();
-
-        // display oled
-
-        // 
+        // gps fill buffer.
+        // gpio led.
+        // oled display.
     }
     
     return 1;
 }
 
-//
+// Systick handler
+// if mode == 0
+    //
+    // if u:
+        // eeprom_read
+    // led = red
+    // oled_string = IDLE
+    // If gpio_sw1_read
+        // mode = 1
+
+
+
 void calculate_total_distance(){
 
 }

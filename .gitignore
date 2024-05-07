@@ -29,6 +29,7 @@ build/startup_ARMCM4.o
 *.vscodemain.elf
 build/
 .idea/
+
 .vscode
 main.elf
 .vscode/settings.json

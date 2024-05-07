@@ -1,0 +1,39 @@
+#include"tm4c123gh6pm.h"
+#include"Systic.h"
+
+#define SYSTEM_CLCK 16000000
+#define MAX_VALUE 16777215 //0xffffff
+#define TIME_P_CYCLE  (float)MAX_VALUE/(float)SYSTEM_CLCK
+
+ void Systi_Init()
+ {
+    NVIC_ST_CTRL_R = 0x00;
+    NVIC_ST_RELOAD_R = 0xFFFFFF;
+    NVIC_ST_CURRENT_R = 0x00;
+     NVIC_ST_CTRL_R = 0x05; // enable ,CLK,disable interrupt 
+ }
+
+
+void Systic_Delay_ms(unsigned int time_ms)
+{
+    float ratio = time_ms/ (TIME_P_CYCLE * 1000);
+    while(ratio > 1)
+    {
+        wait(MAX_VALUE);
+        ratio--;
+    }
+    
+    unsigned int delay = ratio * MAX_VALUE ;
+    wait(delay);
+}
+
+
+
+
+ void wait(unsigned int delay)
+ {
+    NVIC_ST_RELOAD_R = delay-1;
+    NVIC_ST_CURRENT_R = 0x00;
+    while (NVIC_ST_CTRL_R & 0x10){}
+    
+ }

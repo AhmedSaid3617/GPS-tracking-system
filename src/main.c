@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 //float array[250];
+static char output_buffer[50];
 int main()
 {
   //unsigned long i;
@@ -10,18 +11,19 @@ int main()
   // char received[4];
   // unsigned long * volatile to_receieve = (unsigned long *)&received;
   //double f = 3.5;
-  char output_buffer[50];
- // sprintf(output_buffer, "float: %d",33);
+  
+  sprintf(output_buffer, "float: %d",33);
 
   
 
   //float coordinates[2][2] = {{100.21, 25.5}, {300.5, 30.88}};
   //Save_float_EEPROM(coordinates, 2);
   //unsigned long size = EEPROM_Read(0);
-
+ // EEPROM_Read(int address);
   while (1)
   {
-      UART_printf(output_buffer, UART0);
+
+      //UART_printf("output_buffer", UART0);
       //UART_SendByte(UART0,'A');
       // void UART_SendFloat( UART0, 3.5);
      for (int i = 0; i < 100000; i++)

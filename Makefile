@@ -34,5 +34,8 @@ main.elf: $(OBJS)
 %.o: %.S
 	$(CC) -c $(CFLAGS) $< -o $(BUILD)/$@
 
+
+
 clean:
 	rm -f main.elf *.o build/*
+

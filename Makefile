@@ -1,11 +1,8 @@
-SHELL=C:/Windows/System32/cmd.exe
 CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
 
 vpath %.c src
-vpath %.c examples
 vpath %.s src
-vpath %.s examples
 
 #CFLAGS=-ggdb -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -mthumb -mcpu=cortex-m3
 CFLAGS=-ggdb -D__NO_SYSTEM_INIT -D__START=main -nostdlib -mthumb -mcpu=cortex-m4 -mlittle-endian -march=armv7e-m -O0
@@ -30,6 +27,8 @@ main.elf: $(OBJS)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $(BUILD)/$@
 
+%.o: %.s
+	$(CC) -c $(CFLAGS) $< -o $(BUILD)/$@
 
 %.o: %.S
 	$(CC) -c $(CFLAGS) $< -o $(BUILD)/$@

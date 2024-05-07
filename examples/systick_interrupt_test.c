@@ -1,4 +1,6 @@
-#include "main.h"
+#include "uart.h"
+#include "Systic.h"
+
 
 int main()
 {

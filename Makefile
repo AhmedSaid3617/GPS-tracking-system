@@ -8,7 +8,7 @@ vpath %.s src
 vpath %.s examples
 
 #CFLAGS=-ggdb -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -mthumb -mcpu=cortex-m3
-CFLAGS=-ggdb -D__NO_SYSTEM_INIT -D__START=main -nostdlib -mthumb -mcpu=cortex-m4 -mlittle-endian -march=armv7e-m -O0 -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS=-ggdb -D__NO_SYSTEM_INIT -D__START=main -nostdlib -mthumb -mcpu=cortex-m4 -mlittle-endian -march=armv7e-m -O0
 
 BUILD=build
 

@@ -29,12 +29,6 @@ void gps_uart_send_buffer(uint8_t* buffer, uint32_t UART_base){
     
 }
 
-/*
- * Polls GPS for latitude, longitude, satellites used and altitude
- * */
-void GPS_Start() {
-}
-
 // Parses the GPS data from the buffer
 int Gps_Parse(char *s,gps_data_t *gps_data_final){
     gps_data_t gps_data;

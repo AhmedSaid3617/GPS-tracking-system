@@ -14,7 +14,7 @@
 // TODO: Insert delay (4 cycles plus function call overhead)
 #define DELAY_4_CYCLES()            \
     {                               \
-        for (int i = 0; i < 4; i++) \
+        for (int i = 0; i < 100; i++) \
         {                           \
         }                           \
     }
@@ -26,7 +26,7 @@
 #define EESUPP ((volatile EESUPP_TypeDef *)0x400AF01C)
 #define SREEPROM ((volatile SREEPROM_TypeDef *)0x400FE558)
 
-#define EERDWR *((volatile unsigned short *)0x400AF010)
+#define EERDWR *((volatile unsigned long *)0x400AF010)
 #define EEBLOCK ((volatile EEBLOCK_TypeDef *)0x400AF004)
 #define EEOFFSET ((volatile EEOFFSET_TypeDef *)0x400AF008)
 
@@ -89,6 +89,6 @@ typedef union EESUPP_TypeDef
 unsigned long EEPROM_Read(int address);
 void EEPROM_Write(unsigned int address, unsigned long value);
 EEPROM_Init_Status EEPROM_Init();
-void Save_float_EEPROM(float coordinates[][2],int number_of_saved_reading);
+void Save_float_EEPROM(float coordinates[][2],unsigned long number_of_saved_reading);
 
 #endif // GPS_TRACKING_SYSTEM_EEPROM_H

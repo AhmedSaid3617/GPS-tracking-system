@@ -29,3 +29,7 @@ int main()
         
     }
 }
+
+void SysTick_Handler(void){
+    UART_SendByte(UART0, 'A');
+}

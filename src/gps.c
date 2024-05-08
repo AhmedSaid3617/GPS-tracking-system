@@ -46,7 +46,12 @@ int Gps_Parse(char *s,gps_data_t *gps_data_final){
         return 0;
     }
     else{
+        gps_data.latitude  = (int)gps_data.latitude/100  + (gps_data.latitude  - ((float)((int)(gps_data.latitude/100))*100))/60;
+
+        gps_data.longitude = (int)gps_data.longitude/100 + (gps_data.longitude - ((float)((int)(gps_data.longitude/100))*100))/60;
+
+        gps_data.altitude  = (int)gps_data.altitude/100  + (gps_data.altitude  - ((float)((int)(gps_data.altitude/100))*100))/60;
+
         *gps_data_final = gps_data;
-        return 1;
     }
 }

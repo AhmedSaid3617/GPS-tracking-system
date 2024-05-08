@@ -1,6 +1,8 @@
 #ifndef GPS_TRACKING_SYSTEM_EEPROM_H
 #define GPS_TRACKING_SYSTEM_EEPROM_H
 
+#include "uart.h"
+
 #define EEPROM_BLOCK_SIZE 16
 
 // TODO: Insert delay (6 cycles plus function call overhead)

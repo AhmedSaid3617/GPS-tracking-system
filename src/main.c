@@ -23,6 +23,7 @@ int main()
     {
         UART_printf("===============\n", UART0);
         read_coordinates();
+        //UART0_print_float(EEPROM_Read(1));
         for (int i = 0; i < 1000000; i++)
         {
         }

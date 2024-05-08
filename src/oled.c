@@ -7,7 +7,7 @@ void OLED_I2C_Init() {
     char d2[3] = {CONTROL_BYTE, 0x20, 0x00};
     I2C0_Write_Multiple(OLED_7Bit_ADDRESS, d2, 3);
 
-    // TODO: clear display, uses old API
+    OLED_clear_display();
     I2C0_Write_First_In_Sequence(OLED_7Bit_ADDRESS, DATA_BYTE);
     for (int i = 0; i < 1023; i++) {
         I2C0_Write_In_Sequence(OLED_7Bit_ADDRESS, 0);
@@ -54,4 +54,11 @@ void OLED_I2C_Write(unsigned char col, unsigned char page, char * ptr) {
     }
 
     I2C0_Write_Last_In_Sequence(OLED_7Bit_ADDRESS, 0);
+}
+
+void OLED_clear_display() {
+    for (int i = 0; i < 10; i++)
+    {
+        OLED_I2C_Write(0, i, "                                      ");
+    }
 }

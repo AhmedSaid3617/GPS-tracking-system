@@ -5,6 +5,5 @@
 #include "gpio.h"
 #include "eeprom.h"
 #include "Systic.h"
-unsigned long read_coordinates(void);
 
 #endif //GPS_TRACKING_SYSTEM_MAIN_H

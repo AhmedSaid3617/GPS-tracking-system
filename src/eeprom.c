@@ -84,6 +84,20 @@ void EEPROM_Write(unsigned int address, unsigned long value)
     }
 }
 
+// TODO: Rename.
+unsigned long read_coordinates(void)
+{
+    unsigned long size = EEPROM_Read(0);
+    for (int i = 0; i < size * 2; i++)
+    {
+        for (int i = 0; i < 1000; i++);
+        
+        float L = EEPROM_Read(i+1)/1000000.0;
+        UART0_print_float(L);
+    }
+    return size;
+} 
+
 // TODO Rename
 void Save_float_EEPROM(float coordinates[][2], unsigned long number_of_saved_reading) // number_of elements is not the size of the array/
 {
@@ -102,8 +116,6 @@ void Save_float_EEPROM(float coordinates[][2], unsigned long number_of_saved_rea
             }
 
             EEPROM_Write(2 * i + j + 1, (unsigned int)(f_value * 1000000.0));
-            
-            
         }
     }
 }

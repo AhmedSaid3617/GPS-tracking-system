@@ -11,5 +11,6 @@
 void OLED_I2C_Init();
 void OLED_I2C_Draw(const char * ptr, int length);
 void OLED_I2C_Write(unsigned char col, unsigned char page, char * ptr);
+void OLED_clear_display();
 
 #endif //GPS_TRACKING_SYSTEM_OLED_H

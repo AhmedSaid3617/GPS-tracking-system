@@ -3,5 +3,4 @@
 
 #include "uart.h"
 #include "eeprom.h"
-unsigned long read_coordinates(void);
 #endif //GPS_TRACKING_SYSTEM_MAIN_H

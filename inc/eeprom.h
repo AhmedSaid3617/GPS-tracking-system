@@ -90,5 +90,5 @@ unsigned long EEPROM_Read(int address);
 void EEPROM_Write(unsigned int address, unsigned long value);
 EEPROM_Init_Status EEPROM_Init();
 void Save_float_EEPROM(float coordinates[][2],unsigned long number_of_saved_reading);
-
+unsigned long read_coordinates(void);
 #endif // GPS_TRACKING_SYSTEM_EEPROM_H

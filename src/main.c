@@ -29,13 +29,3 @@ int main()
     }
 }
 
-unsigned long read_coordinates(void)
-{
-    unsigned long size = EEPROM_Read(0);
-    for (int i = 0; i < size*2; i++)
-    {
-        float L = EEPROM_Read(i+1)/1000000.0;
-        UART0_print_float(L);
-    }
-    return size;
-}

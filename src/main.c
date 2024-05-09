@@ -6,19 +6,16 @@ char longitude_string[10] = "NaN";
 char gps_status[10] = "Not valid";
 char satelites_string[10] = "0";
 unsigned int ticks = 0;
+char gps_input_buffer[500] = {1};
 
 int main()
 {
-    char gps_input_buffer[500] = {};
+    
     UART0_Init(9600);
     UART1_Init(9600);
     I2C_Init();
     OLED_I2C_Init();
     // Systick_Interrupt_Init(100);
-    for (int i = 0; i < 10; i++)
-    {
-        OLED_I2C_Write(0, i, "                                      ");
-    }
 
     OLED_I2C_Write(0, 0, gps_status);
     OLED_I2C_Write(0, 2, longitude_string);
@@ -28,7 +25,7 @@ int main()
     {
         if (gps_uart_fill_buffer(gps_input_buffer, UART1) > 200)
         {
-            //gps_uart_send_buffer(gps_input_buffer, UART0);
+            gps_uart_send_buffer(gps_input_buffer, UART0);
             if (Gps_Parse(gps_input_buffer, &data_point))
             {
                 strncpy(gps_status, "Valid    ", 10);
@@ -39,7 +36,6 @@ int main()
                 OLED_I2C_Write(0, 2, longitude_string);
                 OLED_I2C_Write(0, 4, latitude_string);
                 OLED_I2C_Write(0, 6, satelites_string);
-                // UART_SendByte(UART0, 'a');
             }
         }
     }

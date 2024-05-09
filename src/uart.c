@@ -17,14 +17,22 @@ void UART0_Init(int Baud_rate)
   while ((SYSCTL_PRUART_R & (0x01)) == 0)
   {
   } // Check bit 0 for UART0
+  while ((SYSCTL_PRGPIO_R & 0x01) == 0)
+  {
+  } // Check bit 0 for Port A
+  while ((SYSCTL_PRUART_R & (0x01)) == 0)
+  {
+  } // Check bit 0 for UART0
 
   // Configure PA0 (RX) and PA1 (TX) as UART pins
+
 
   GPIO_PORTA_DEN_R |= (1 << 0) | (1 << 1);                               // Enable digital I/O for RX and TX pins
   GPIO_PORTA_AFSEL_R |= (1 << 0) | (1 << 1);                             // Set RX and TX to alternate function
   GPIO_PORTA_PCTL_R &= ~((GPIO_PORTA_PCTL_R & (0xF << 0)) | (0xF << 4)); // Clear PCTL bits for RX and TX
   GPIO_PORTA_PCTL_R |= (1 << 0) | (1 << 4);                              // Set PCTL bits for RX and TX
   GPIO_PORTA_AMSEL_R &= ~(0x03);                                         // Clear analog mode for RX and TX pins
+
 
   // Set baud rate
   UART0_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
@@ -38,11 +46,20 @@ void UART1_Init(int Baud_rate)
 
   // Enable the clock for UART1
   SYSCTL_RCGCUART_R |= (1 << 1); // Set bit 1 for UART1
+  SYSCTL_RCGCUART_R |= (1 << 1); // Set bit 1 for UART1
 
   // Enable clock for GPIO Port B
   SYSCTL_RCGCGPIO_R |= (1 << 1); // Set bit 2 for GPIO Port B
+  SYSCTL_RCGCGPIO_R |= (1 << 1); // Set bit 2 for GPIO Port B
 
   // Wait for the clocks to be ready
+  while ((SYSCTL_PRGPIO_R & (1 << 1)) == 0)
+  {
+  } // Check bit 1 for Port B
+  while ((SYSCTL_PRUART_R & (1 << 1)) == 0)
+  {
+  } // Check bit 1 for UART1
+
   while ((SYSCTL_PRGPIO_R & (1 << 1)) == 0)
   {
   } // Check bit 1 for Port B
@@ -56,9 +73,11 @@ void UART1_Init(int Baud_rate)
   GPIO_PORTB_PCTL_R &= (GPIO_PORTB_PCTL_R & 0xFFFFFF00); // Clear PCTL bits for RX and TX
   GPIO_PORTB_PCTL_R |= 0x000000011;                      // Set PCTL bits for RX and TX
   GPIO_PORTB_AMSEL_R &= ~((1 << 0) | (1 << 1));          // Clear analog mode for RX and TX pins
+  GPIO_PORTB_AMSEL_R &= ~((1 << 0) | (1 << 1));          // Clear analog mode for RX and TX pins
 
   // Set baud rate
   UART1_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
+  UART1_FBRD_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
   UART1_FBRD_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
   UART1_LCRH_R = 0x70;  // Set data length to 8 bits        //one stop //fifos         // and no parity
   UART1_CTL_R |= 0x301; // Enable UART1
@@ -79,6 +98,12 @@ void UART2_Init(int Baud_rate)
   while ((SYSCTL_PRUART_R & (1 << 2)) == 0)
   {
   } // Check bit 2 for UART2
+  while ((SYSCTL_PRGPIO_R & (1 << 3)) == 0)
+  {
+  }
+  while ((SYSCTL_PRUART_R & (1 << 2)) == 0)
+  {
+  } // Check bit 2 for UART2
 
   // Configure PD6 (RX) and PD7 (TX) as UART pins
 
@@ -88,6 +113,7 @@ void UART2_Init(int Baud_rate)
   GPIO_PORTD_AFSEL_R |= (1 << 6) | (1 << 7);             // Set RX and TX to alternate function
   GPIO_PORTD_PCTL_R &= (GPIO_PORTD_PCTL_R & 0x00FFFFFF); // Clear PCTL bits for RX and TX
   GPIO_PORTD_PCTL_R |= 0xFF0000000;                      // Set PCTL bits for RX and TX
+  GPIO_PORTD_AMSEL_R &= ~((1 << 7) | (1 << 7));          // Clear analog mode for RX and TX pins
   GPIO_PORTD_AMSEL_R &= ~((1 << 7) | (1 << 7));          // Clear analog mode for RX and TX pins
 
   // Set baud rate
@@ -101,6 +127,7 @@ void UART7_Init(int Baud_rate)
 {
   // Enable the clock for UART0
   SYSCTL_RCGCUART_R |= (1 << 7); // Set bit 0 for UART0
+  SYSCTL_RCGCUART_R |= (1 << 7); // Set bit 0 for UART0
 
   // Enable clock for GPIO Port A
   SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R4; // Set bit 0 for GPIO Port E
@@ -110,8 +137,13 @@ void UART7_Init(int Baud_rate)
   {
   } // Check bit 0 for Port A
   // while ((SYSCTL_PRUART_R & (1<<7)) == 0) {}  // Check bit 0 for UART0
+  while ((SYSCTL_PRGPIO_R & 0x10) == 0)
+  {
+  } // Check bit 0 for Port A
+  // while ((SYSCTL_PRUART_R & (1<<7)) == 0) {}  // Check bit 0 for UART0
 
   // Configure PE0 (RX) and PE1 (TX) as UART pins
+
 
   GPIO_PORTE_DEN_R |= (1 << 0) | (1 << 1);                               // Enable digital I/O for RX and TX pins
   GPIO_PORTE_AFSEL_R |= (1 << 0) | (1 << 1);                             // Set RX and TX to alternate function
@@ -119,7 +151,9 @@ void UART7_Init(int Baud_rate)
   GPIO_PORTE_PCTL_R |= (1 << 0) | (1 << 4);                              // Set PCTL bits for RX and TX
   GPIO_PORTE_AMSEL_R &= ~(0x03);                                         // Clear analog mode for RX and TX pins
 
+
   // Set baud rate
+
 
   UART7_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
   UART7_FBRD_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
@@ -130,6 +164,9 @@ void UART7_Init(int Baud_rate)
 void UART_SendByte(uint32_t UART_base, uint8_t data)
 {
   // Wait until the transmit FIFO is not full
+  while ((*(volatile uint32_t *)(UART_base + 0x18) & 0x20) != 0)
+  {
+  }
   while ((*(volatile uint32_t *)(UART_base + 0x18) & 0x20) != 0)
   {
   }
@@ -149,12 +186,14 @@ uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination)
     {
       *destination = (char)(*(volatile uint32_t *)(UART_base + 0x00) & 0xFF); // Store received byte.
       return (uint16_t)1;                                                     // Return success.
+      return (uint16_t)1;                                                     // Return success.
     }
   }
 
   // Retrun fail.
   return (uint16_t)0;
 }
+
 
 void UART_printf(char *buffer, uint32_t UART_base)
 {
@@ -163,13 +202,16 @@ void UART_printf(char *buffer, uint32_t UART_base)
     UART_SendByte(UART_base, *buffer);
     buffer++;
   }
+  
 }
+
 
 void UART0_print_float(float num)
 {
   char output_buffer[15];
   int first = (int)num;
   int second = (num - first) * 1000000;
-  sprintf(output_buffer, "%d.%d\n", first, second);
+  sprintf(output_buffer, "%d.%06d\n", first, second);
+  
   UART_printf(output_buffer, UART0);
 }

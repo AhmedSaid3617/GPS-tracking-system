@@ -21,14 +21,14 @@ int main()
     // write_green_led(0);
     I2C_Init();
     OLED_I2C_Init();
-    //Systick_Interrupt_Init(1000);
+    Systick_Interrupt_Init(1000);
     mode = 0;
 
     while (1)
     {
         gps_uart_fill_buffer(gps_input_buffer, UART1);
-        UART_printf(gps_input_buffer, UART0);
-        UART_printf("\n====================\n", UART0);
+        //UART_printf(gps_input_buffer, UART0);
+        //UART_printf("\n====================\n", UART0);
         OLED_I2C_Write(0, 0, oledString);
         OLED_I2C_Write(0, 2, gps_status);
         OLED_I2C_Write(0, 4, longitude_string);
@@ -68,6 +68,7 @@ void SysTick_Handler()
             float_to_string(data_point.satellites, satelites_string);
             OLED_clear_display();
         }
+        strcpy(oledString, "RECORDING");
     }
 }
 

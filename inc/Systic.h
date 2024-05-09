@@ -3,7 +3,7 @@
 #define _Systic_H_
 
 void Systick_Init();
-void Systick_Interrupt_Init();
+void Systick_Interrupt_Init(int delay_ms);
 
 void Systic_Delay_ms(unsigned int time_ms);
 

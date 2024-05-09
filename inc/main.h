@@ -11,6 +11,7 @@
 #include "gpio.h"
 #include "eeprom.h"
 #include "utils.h"
+#include "tm4c123gh6pm.h"
 
 #define COORDINATES_SIZE 250
 

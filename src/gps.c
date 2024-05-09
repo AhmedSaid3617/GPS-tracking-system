@@ -8,11 +8,17 @@
  * @param UART_base: base address for the UART module to use.
  * */
 uint32_t gps_uart_fill_buffer(uint8_t* buffer, uint32_t UART_base){
-    
-    for (int i = 0; i < 500; i++)
+
+    int i = 0;
+    while (i < 250)
     {
-        if (UART_ReceiveByte(UART_base, buffer+i))
-            i++;
+        if (UART_ReceiveByte(UART_base, buffer+i)){
+            if (*(buffer +i) != 0)
+            {
+                i++;
+            }
+        }
+
         else{
             return (uint32_t)i;
             break;
@@ -53,5 +59,6 @@ int Gps_Parse(char *s,gps_data_t *gps_data_final){
         gps_data.altitude  = (int)gps_data.altitude/100  + (gps_data.altitude  - ((float)((int)(gps_data.altitude/100))*100))/60;
 
         *gps_data_final = gps_data;
+        return 1;
     }
 }

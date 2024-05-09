@@ -6,11 +6,11 @@ char latitude_string[10] = "NaN";
 char longitude_string[10] = "NaN";
 char gps_status[10] = "Not valid";
 char satelites_string[10] = "0";
-unsigned int ticks = 0;
+//unsigned int ticks = 0;
 
 char gps_input_buffer[500] = {1};
-int mode = 1;
-char led = 0;
+int mode = 2;
+char led = 0x10000;
 
 int main()
 {
@@ -21,11 +21,13 @@ int main()
     // write_green_led(0);
     I2C_Init();
     OLED_I2C_Init();
-    Systick_Interrupt_Init(1000);
+    //Systick_Interrupt_Init(1000);
+    mode = 0;
 
     while (1)
     {
         gps_uart_fill_buffer(gps_input_buffer, UART1);
+        UART_printf(gps_input_buffer, UART0);
         UART_printf("\n====================\n", UART0);
         OLED_I2C_Write(0, 0, oledString);
         OLED_I2C_Write(0, 2, gps_status);

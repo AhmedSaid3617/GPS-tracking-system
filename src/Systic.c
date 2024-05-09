@@ -32,7 +32,7 @@ void Systick_Delay_cycles(unsigned int delay)
 */
 void Systick_Interrupt_Init(int delay_ms){
     NVIC_ST_CTRL_R = 0x00;
-    NVIC_ST_RELOAD_R = delay_ms * 16000 - 1; // 1 second delay at 16 MHz.
+    NVIC_ST_RELOAD_R = delay_ms*(16000 - 1); // 1 second delay at 16 MHz.
     NVIC_ST_CURRENT_R = 0x00;
     NVIC_ST_CTRL_R = 0x07; // Srt enable ,CLK, interrupt.
 }

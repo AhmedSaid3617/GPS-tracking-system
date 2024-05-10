@@ -15,4 +15,6 @@
 
 #define COORDINATES_SIZE 250
 
+void oled_display_data();
+
 #endif //GPS_TRACKING_SYSTEM_MAIN_H

@@ -14,7 +14,7 @@ int main()
         /* code */
     }
     
-    Save_float_EEPROM(input_array, 4);
+    EEPROM_write_array(input_array, 4);
     //EEPROM_Write(1,1234);
     
     //EEPROM_Write((0) + 1 , (unsigned long)(input_array[0][0]*10000.0));
@@ -22,7 +22,7 @@ int main()
     while (1)
     {
         UART_printf("===============\n", UART0);
-        read_coordinates();
+        EEPROM_read_coordniates();
         //UART0_print_float(EEPROM_Read(1));
         for (int i = 0; i < 1000000; i++)
         {

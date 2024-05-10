@@ -85,7 +85,7 @@ void EEPROM_Write(unsigned int address, unsigned long value)
 }
 
 // TODO: Rename.
-unsigned long read_coordinates(void)
+unsigned long EEPROM_read_coordniates(void)
 {
     unsigned long size = EEPROM_Read(0);
     for (int i = 0; i < size * 2; i++)
@@ -99,7 +99,7 @@ unsigned long read_coordinates(void)
 } 
 
 // TODO Rename
-void Save_float_EEPROM(float coordinates[][2], unsigned long number_of_saved_reading) // number_of elements is not the size of the array/
+void EEPROM_write_array(float coordinates[][2], unsigned long number_of_saved_reading) // number_of elements is not the size of the array/
 {
     char i, j;
     float f_value = 0;

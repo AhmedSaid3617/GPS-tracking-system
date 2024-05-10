@@ -13,7 +13,8 @@
 #include "utils.h"
 #include "tm4c123gh6pm.h"
 
-#define COORDINATES_SIZE 250
+#define RAM_MAX_COORDINATES 1000
+#define EEPROM_MAX_COORDINATES 250
 
 void oled_display_data();
 

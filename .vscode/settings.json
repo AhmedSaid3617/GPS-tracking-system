@@ -3,7 +3,10 @@
         "tm4c123gh6pm.h": "c",
         "stdint.h": "c",
         "gpio.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "stdio.h": "c",
+        "gps.h": "c",
+        "systic.h": "c"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "makefile.launchConfigurations": [

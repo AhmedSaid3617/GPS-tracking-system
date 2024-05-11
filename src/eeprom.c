@@ -32,17 +32,17 @@ EEPROM_Init_Status EEPROM_Init()
  * */
 void EEPROM_Set_Block_And_Offset(unsigned int block, unsigned int offset)
 {
-    if (block > (1 << 16))
+    if (block > 31)
     {
         return;
     }
 
-    if (offset > (1 << 4))
+    if (offset > 15)
     {
         return;
     }
-
-    EEBLOCK->BLOCK = block;
+    
+    EEBLOCK->value = block;
     EEOFFSET->OFFSET = offset;
 
     DELAY_4_CYCLES();
@@ -62,6 +62,8 @@ unsigned long EEPROM_Read(int address)
 
         EEPROM_Set_Block_And_Offset(block, offset);
 
+        DELAY_4_CYCLES();
+
         return EERDWR;
     }
 }
@@ -80,7 +82,21 @@ void EEPROM_Write(unsigned int address, unsigned long value)
 
         EEPROM_Set_Block_And_Offset(block, offset);
 
+        DELAY_6_CYCLES();
+
         EERDWR = value;
+
+        for (int i = 0; i < 10000; i++)
+        {
+            
+        }
+
+        /* UART0_print_float(block);
+        UART0_print_float(offset);
+        UART0_print_float(EERDWR);
+        UART_printf("=============", UART0); */
+
+        
     }
 }
 
@@ -88,13 +104,14 @@ void EEPROM_Write(unsigned int address, unsigned long value)
 unsigned long EEPROM_read_coordniates(void)
 {
     unsigned long size = EEPROM_Read(0);
+    UART0_print_float(size);
     for (int i = 0; i < size * 2; i++)
     {
-        for (int i = 0; i < 1000; i++);
+        for (int x = 0; x < 1000; x++);
         
         float L = EEPROM_Read(i+1)/1000000.0;
         UART0_print_float(L);
-    }
+    } 
     return size;
 } 
 
@@ -110,12 +127,14 @@ void EEPROM_write_array(float coordinates[][2], unsigned long number_of_saved_re
         for (j = 0; j < 2; j++)
         {
             f_value = coordinates[i][j];
-            for (int i = 0; i < 10000; i++)
+            for (int x = 0; x < 10000; x++)
             {
-                /* code */
+                
             }
 
             EEPROM_Write(2 * i + j + 1, (unsigned int)(f_value * 1000000.0));
         }
+
+
     }
 }

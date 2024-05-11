@@ -15,14 +15,17 @@ int main()
     UART0_Init(9600);
     Systick_Interrupt_Init(1000);
 
-    Systick_Interrupt_Init(1000);
-
     while (1)
     {
         //gps_uart_fill_buffer(gps_input_buffer, UART0);
         // Display oled.
-        UART_printf(oled_string, UART0);
+        //UART_printf(oled_string, UART0);
         // Turn on led.
+        for (int i = 0; i < 100000; i++)
+        {
+            /* code */
+        }
+        
     }
 }
 

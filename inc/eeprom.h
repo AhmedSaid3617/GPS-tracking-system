@@ -8,7 +8,7 @@
 // TODO: Insert delay (6 cycles plus function call overhead)
 #define DELAY_6_CYCLES()            \
     {                               \
-        for (int i = 0; i < 100; i++) \
+        for (int i = 0; i < 1000; i++) \
         {                           \
         }                           \
     }
@@ -16,7 +16,7 @@
 // TODO: Insert delay (4 cycles plus function call overhead)
 #define DELAY_4_CYCLES()            \
     {                               \
-        for (int i = 0; i < 100; i++) \
+        for (int i = 0; i < 1000; i++) \
         {                           \
         }                           \
     }
@@ -46,13 +46,23 @@ typedef union RCGCEEPROM_TypeDef
 
 typedef union EEBLOCK_TypeDef
 {
-    unsigned int BLOCK : 16;
+    struct 
+    {
+        unsigned int BLOCK : 16;
+    };
+    
+    
     unsigned long value;
 } EEBLOCK_TypeDef;
 
 typedef union EEOFFSET_TypeDef
 {
-    unsigned int OFFSET : 4;
+    
+    struct
+    {
+       unsigned int OFFSET : 4;
+    };
+    
     unsigned long value;
 } EEOFFSET_TypeDef;
 

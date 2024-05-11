@@ -34,7 +34,7 @@ int main()
     strcpy(gps_status_string, "STARTING");
     oled_display_data(); // Display STARTING message.
 
-    while (gps_uart_fill_buffer(gps_input_buffer, UART1) < 100)
+    while (gps_uart_fill_buffer(gps_input_buffer, UART1) < 50)
         ; // Wait until gps_input_buffer is filled for the first time.
 
     Systic_Delay_ms(300); // Insert hold time.
@@ -42,7 +42,10 @@ int main()
 
     while (1)
     {
-        gps_uart_fill_buffer(gps_input_buffer, UART1);
+        if(gps_uart_fill_buffer(gps_input_buffer, UART1)>100){
+            /* UART_printf("\n====================\n", UART0);
+            UART_printf(gps_input_buffer, UART0); */
+        }
         oled_display_data();
     }
 }
@@ -69,6 +72,8 @@ void SysTick_Handler()
         // TODO: REMOVE THIS
         if (read_sw2())
         {
+            UART_printf("\n", UART0);
+            UART0_print_float(coordinates_num);
             EEPROM_read_coordniates();
         }
 
@@ -93,14 +98,19 @@ void SysTick_Handler()
             float_to_string(data_point.latitude, latitude_string);
             float_to_string(data_point.longitude, longitude_string);
 
-            OLED_clear_display();
+            //OLED_clear_display();
 
             if (coordinates_num < 1000) // Condition to avoid writing out of bounds.
             {
                 coordinates[coordinates_num][0] = data_point.latitude; // Save new point.
-                coordinates[coordinates_num][0] = data_point.latitude;
+                coordinates[coordinates_num][1] = data_point.latitude;
                 coordinates_num++;
             }
+        }
+        else{
+            strcpy(gps_status_string, "Not Valid ");
+            strcpy(latitude_string, "            ");
+            strcpy(longitude_string, "            ");
         }
         if (read_sw1())
         {
@@ -114,7 +124,7 @@ void SysTick_Handler()
             else
             {
                 // Save the last 250 coordinates.
-                EEPROM_write_array((float(*)[2])coordinates + coordinates_num - EEPROM_MAX_COORDINATES, coordinates_num);
+                EEPROM_write_array((float(*)[2])coordinates + coordinates_num - EEPROM_MAX_COORDINATES, EEPROM_MAX_COORDINATES);
             }
             mode = IDLE;
         }

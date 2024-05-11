@@ -72,6 +72,8 @@ void SysTick_Handler()
         // TODO: REMOVE THIS
         if (read_sw2())
         {
+            UART_printf("\n", UART0);
+            UART0_print_float(coordinates_num);
             EEPROM_read_coordniates();
         }
 
@@ -101,7 +103,7 @@ void SysTick_Handler()
             if (coordinates_num < 1000) // Condition to avoid writing out of bounds.
             {
                 coordinates[coordinates_num][0] = data_point.latitude; // Save new point.
-                coordinates[coordinates_num][0] = data_point.latitude;
+                coordinates[coordinates_num][1] = data_point.latitude;
                 coordinates_num++;
             }
         }
@@ -122,7 +124,7 @@ void SysTick_Handler()
             else
             {
                 // Save the last 250 coordinates.
-                EEPROM_write_array((float(*)[2])coordinates + coordinates_num - EEPROM_MAX_COORDINATES, coordinates_num);
+                EEPROM_write_array((float(*)[2])coordinates + coordinates_num - EEPROM_MAX_COORDINATES, EEPROM_MAX_COORDINATES);
             }
             mode = IDLE;
         }

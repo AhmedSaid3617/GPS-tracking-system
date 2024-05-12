@@ -10,7 +10,7 @@ CFLAGS=-ggdb -D__NO_SYSTEM_INIT -D__STACK_SIZE=0x00002000 -D__START=main -mthumb
 BUILD=build
 
 # OBJS is the list of object target files to compile
-OBJS=startup_ARMCM4.o main.o i2c.o oled.o uart.o gps.o syscalls.o eeprom.o Systic.o utils.o gpio.o
+OBJS=startup_ARMCM4.o main.o i2c.o oled.o uart.o gps.o syscalls.o eeprom.o Systic.o utils.o gpio.o interrupts.o
 
 # Add library paths for compiler
 #CFLAGS+= -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -Iinc/

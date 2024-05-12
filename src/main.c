@@ -26,19 +26,19 @@ float rad(float degree) {
 }
 
 float calculate_distance (float c1[2],float c2[2]){
-    double long1_rad = rad(c1[0]);
-    double lat1_rad = rad(c1[1]);
-    double long2_rad = rad(c2[0]);
-    double lat2_rad = rad(c2[1]);
-    float a = pow(sin((lat2_rad - lat1_rad) / 2), 2) + cos(lat1_rad) * cos(lat2_rad) * pow(sin((long2_rad - long1_rad) / 2), 2);
-    float c = 2 * asin(sqrt(a));
+    float x[2] = {c1[0], c2[0]};
+    float y[2] = {c1[1], c2[1]};
+    float sum = 0;
+    sum += 2*6371*asin(sqrt(pow(sin((x[0]-y[0])*(M_PI/360)),2)+cos(x[0]*(M_PI/180))*cos(y[0]*(M_PI/180))*pow(sin((y[1]-x[1])*(M_PI/360)),2)));
+
+
     UART_printf("\n===========xxx=========\n", UART0);
 
-    UART0_print_float(c);
+    UART0_print_float(sum);
     UART_printf("\n=====xxxxxx===============\n", UART0);
 
 
-    return c;
+    return sum;
 }
 
 int main()

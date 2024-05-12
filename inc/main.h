@@ -18,7 +18,7 @@
 #define EEPROM_MAX_COORDINATES 250
 
 #define DISTANCE_THRESHOLD 1.5
-
+#define EARTH_RADIUS_IN_METERS 6371000
 void oled_display_data();
 
 #endif //GPS_TRACKING_SYSTEM_MAIN_H

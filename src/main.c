@@ -51,7 +51,8 @@ int main()
 
     while (1)
     {
-        if(gps_uart_fill_buffer(gps_input_buffer, UART1)>100){
+        if (gps_uart_fill_buffer(gps_input_buffer, UART1) > 100)
+        {
             /* UART_printf("\n====================\n", UART0);
             UART_printf(gps_input_buffer, UART0); */
         }
@@ -69,6 +70,9 @@ void SysTick_Handler()
         { // read what in the UART and change the value in the data
             if (data == 'U')
             {
+                strcpy(mode_string, "READING"); // Display waiting message.
+                OLED_clear_display();
+                oled_display_data();
                 EEPROM_read_coordniates(); // take the size of data saved in Epprom to iterate over Epprom
             }
         }
@@ -81,10 +85,7 @@ void SysTick_Handler()
         // TODO: REMOVE THIS
         if (read_sw2())
         {
-            EEPROM_read_coordniates();
-            strcpy(mode_string, "READING"); // Display waiting message.
-            OLED_clear_display();
-            oled_display_data();
+            //EEPROM_read_coordniates();
         }
 
         if (Gps_Parse(gps_input_buffer, &data_point))
@@ -107,7 +108,7 @@ void SysTick_Handler()
             float_to_string(data_point.latitude, latitude_string);
             float_to_string(data_point.longitude, longitude_string);
 
-            //OLED_clear_display();
+            // OLED_clear_display();
 
             if (coordinates_num < 1000) // Condition to avoid writing out of bounds.
             {
@@ -116,7 +117,8 @@ void SysTick_Handler()
                 coordinates_num++;
             }
         }
-        else{
+        else
+        {
             strcpy(gps_status_string, "Not Valid ");
             /* strcpy(latitude_string, "          ");
             strcpy(longitude_string, "          "); */
@@ -158,8 +160,8 @@ void oled_display_data()
 
     OLED_I2C_Write(0, 4, "Latitude: ");
     OLED_I2C_Write(10 * 6, 4, latitude_string);
-    OLED_I2C_Write(20*6, 4, ns);
+    OLED_I2C_Write(20 * 6, 4, ns);
     OLED_I2C_Write(0, 6, "Longitude: ");
     OLED_I2C_Write(10 * 6, 6, longitude_string);
-    OLED_I2C_Write(20*6, 6, ew);
+    OLED_I2C_Write(20 * 6, 6, ew);
 }

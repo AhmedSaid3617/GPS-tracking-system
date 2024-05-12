@@ -9,16 +9,24 @@ enum State
 gps_data_t data_point;
 char mode_string[10] = "IDLE";
 char latitude_string[10] = " ";
+char ns[2] = " ";
 char longitude_string[10] = " ";
-char gps_status_string[] = "Not valid";
-// char satelites_string[10] = "0";
-char distance[10] = "0.0";
+char ew[2] = " ";
+char gps_status_string[] = " ";
+char distance_string[10] = "0.0";
 
 char gps_input_buffer[500] = "1";
 float coordinates[RAM_MAX_COORDINATES][2] = {1};
 unsigned long coordinates_num = 1;
+unsigned long distance = 1;
 int mode = IDLE;
 
+/* void calculate_distance (float x[2],float y[2]){
+    float sum = 0;
+    sum += 2*6371*asin(sqrt(pow(sin((x[0]-y[0])*(M_PI/360)),2)+cos(x[0]*(M_PI/180))*cos(y[0]*(M_PI/180))*pow(sin((y[1]-x[1])*(M_PI/360)),2)));
+    printf("%.6f", sum);
+}
+ */
 int main()
 {
     UART0_Init(9600);
@@ -30,6 +38,7 @@ int main()
     EEPROM_Init();
 
     coordinates_num = 0;
+    distance = 0;
 
     strcpy(gps_status_string, "STARTING");
     oled_display_data(); // Display STARTING message.
@@ -72,9 +81,10 @@ void SysTick_Handler()
         // TODO: REMOVE THIS
         if (read_sw2())
         {
-            UART_printf("\n", UART0);
-            UART0_print_float(coordinates_num);
             EEPROM_read_coordniates();
+            strcpy(mode_string, "READING"); // Display waiting message.
+            OLED_clear_display();
+            oled_display_data();
         }
 
         if (Gps_Parse(gps_input_buffer, &data_point))
@@ -85,7 +95,6 @@ void SysTick_Handler()
         {
             strcpy(gps_status_string, "Not Valid ");
         }
-        // UART_printf(gps_input_buffer, UART0);
     }
 
     else if (mode == RECORDING)
@@ -103,14 +112,14 @@ void SysTick_Handler()
             if (coordinates_num < 1000) // Condition to avoid writing out of bounds.
             {
                 coordinates[coordinates_num][0] = data_point.latitude; // Save new point.
-                coordinates[coordinates_num][1] = data_point.latitude;
+                coordinates[coordinates_num][1] = data_point.longitude;
                 coordinates_num++;
             }
         }
         else{
             strcpy(gps_status_string, "Not Valid ");
-            strcpy(latitude_string, "            ");
-            strcpy(longitude_string, "            ");
+            /* strcpy(latitude_string, "          ");
+            strcpy(longitude_string, "          "); */
         }
         if (read_sw1())
         {
@@ -146,8 +155,11 @@ void oled_display_data()
     OLED_I2C_Write(0, 0, mode_string);
     OLED_I2C_Write(6 * 10, 0, gps_status_string);
     OLED_I2C_Write(0, 2, "Distance: 00000");
+
     OLED_I2C_Write(0, 4, "Latitude: ");
     OLED_I2C_Write(10 * 6, 4, latitude_string);
+    OLED_I2C_Write(20*6, 4, ns);
     OLED_I2C_Write(0, 6, "Longitude: ");
     OLED_I2C_Write(10 * 6, 6, longitude_string);
+    OLED_I2C_Write(20*6, 6, ew);
 }

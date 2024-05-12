@@ -104,7 +104,6 @@ void EEPROM_Write(unsigned int address, unsigned long value)
 unsigned long EEPROM_read_coordniates(void)
 {
     unsigned long size = EEPROM_Read(0);
-    UART0_print_float(size);
     for (int i = 0; i < size * 2; i++)
     {
         for (int x = 0; x < 1000; x++);

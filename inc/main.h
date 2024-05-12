@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "i2c.h"
 #include "oled.h"
 #include "uart.h"

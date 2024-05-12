@@ -12,21 +12,35 @@ char latitude_string[10] = " ";
 char ns[2] = " ";
 char longitude_string[10] = " ";
 char ew[2] = " ";
-char gps_status_string[] = " ";
-char distance_string[10] = "0.0";
+char gps_status_string[10] = " ";
+char distance_string[15] = "0.0";
 
 char gps_input_buffer[500] = "1";
 float coordinates[RAM_MAX_COORDINATES][2] = {1};
 unsigned long coordinates_num = 1;
-unsigned long distance = 1;
+float distance = 1;
 int mode = IDLE;
 
-/* void calculate_distance (float x[2],float y[2]){
-    float sum = 0;
-    sum += 2*6371*asin(sqrt(pow(sin((x[0]-y[0])*(M_PI/360)),2)+cos(x[0]*(M_PI/180))*cos(y[0]*(M_PI/180))*pow(sin((y[1]-x[1])*(M_PI/360)),2)));
-    printf("%.6f", sum);
+float rad(float degree) {
+    return (degree * M_PI) / 180;
 }
- */
+
+float calculate_distance (float c1[2],float c2[2]){
+    double long1_rad = rad(c1[0]);
+    double lat1_rad = rad(c1[1]);
+    double long2_rad = rad(c2[0]);
+    double lat2_rad = rad(c2[1]);
+    float a = pow(sin((lat2_rad - lat1_rad) / 2), 2) + cos(lat1_rad) * cos(lat2_rad) * pow(sin((long2_rad - long1_rad) / 2), 2);
+    float c = 2 * asin(sqrt(a));
+    UART_printf("\n===========xxx=========\n", UART0);
+
+    UART0_print_float(c);
+    UART_printf("\n=====xxxxxx===============\n", UART0);
+
+
+    return c;
+}
+
 int main()
 {
     UART0_Init(9600);
@@ -53,9 +67,11 @@ int main()
     {
         if (gps_uart_fill_buffer(gps_input_buffer, UART1) > 100)
         {
-            /* UART_printf("\n====================\n", UART0);
-            UART_printf(gps_input_buffer, UART0); */
+            UART_printf("\n====================\n", UART0);
+            UART_printf(gps_input_buffer, UART0);
         }
+
+
         oled_display_data();
     }
 }
@@ -94,7 +110,7 @@ void SysTick_Handler()
         }
         else
         {
-            strcpy(gps_status_string, "Not Valid ");
+            strcpy(gps_status_string, "Not Valid");
         }
     }
 
@@ -115,7 +131,18 @@ void SysTick_Handler()
                 coordinates[coordinates_num][0] = data_point.latitude; // Save new point.
                 coordinates[coordinates_num][1] = data_point.longitude;
                 coordinates_num++;
+                if (coordinates_num > 1) {
+                    float delta = calculate_distance(coordinates[coordinates_num], coordinates[coordinates_num - 1]);
+                    UART_printf("+++++++++++++++====", UART0);
+                    UART0_print_float(delta);
+                    if (delta > DISTANCE_THRESHOLD)
+                        distance += delta;
+
+                    float_to_string(distance, distance_string);
+                }
             }
+
+
         }
         else
         {
@@ -156,11 +183,14 @@ void oled_display_data()
 {
     OLED_I2C_Write(0, 0, mode_string);
     OLED_I2C_Write(6 * 10, 0, gps_status_string);
-    OLED_I2C_Write(0, 2, "Distance: 00000");
+
+    OLED_I2C_Write(0, 2, "Distance: ");
+    OLED_I2C_Write(10*5+4, 2, distance_string);
 
     OLED_I2C_Write(0, 4, "Latitude: ");
     OLED_I2C_Write(10 * 6, 4, latitude_string);
     OLED_I2C_Write(20 * 6, 4, ns);
+
     OLED_I2C_Write(0, 6, "Longitude: ");
     OLED_I2C_Write(10 * 6, 6, longitude_string);
     OLED_I2C_Write(20 * 6, 6, ew);

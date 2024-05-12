@@ -18,36 +18,27 @@ char gps_input_buffer[500] = "1";
 float coordinates[RAM_MAX_COORDINATES][2] = {1};
 unsigned long coordinates_num = 1;
 int mode = IDLE;
+char led = 1;
 
 int main()
 {
     UART0_Init(9600);
-    UART1_Init(9600);
+    UART0_interrupt_init();
     GPIOF_default_init();
-    I2C_Init();
-    OLED_I2C_Init();
-    Systick_Init();
-    EEPROM_Init();
 
-    coordinates_num = 0;
-
-    strcpy(gps_status_string, "STARTING");
-    oled_display_data(); // Display STARTING message.
-
-    while (gps_uart_fill_buffer(gps_input_buffer, UART1) < 50)
-        ; // Wait until gps_input_buffer is filled for the first time.
-
-    Systic_Delay_ms(300); // Insert hold time.
-    Systick_Interrupt_Init(1000);
+    led = 0;
 
     while (1)
     {
-        if(gps_uart_fill_buffer(gps_input_buffer, UART1)>100){
-            UART_printf("\n====================\n", UART0);
-            UART_printf(gps_input_buffer, UART0);
-        };
-        oled_display_data();
+        write_blue_led(led);
+        UART_printf("==========\n", UART0);
+        Systic_Delay_ms(500);
     }
+}
+
+void UART0_IRQHandler(void){
+    UART0_ICR_R |= 0x10;
+    led = 1;
 }
 
 void SysTick_Handler()

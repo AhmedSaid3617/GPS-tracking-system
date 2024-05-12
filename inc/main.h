@@ -12,6 +12,7 @@
 #include "eeprom.h"
 #include "utils.h"
 #include "tm4c123gh6pm.h"
+#include "interrupts.h"
 
 #define RAM_MAX_COORDINATES 1000
 #define EEPROM_MAX_COORDINATES 250

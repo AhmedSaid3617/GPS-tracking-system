@@ -6,7 +6,8 @@ uint8_t mode_string[10] = "IDLE";
 
 uint8_t latitude_string[10] = " ";
 uint8_t longitude_string[10] = " ";
-uint8_t gps_status_string[10] = " ";
+uint8_t gps_status_string[12] = " ";
+uint8_t buffer_status_string[10] = " ";
 uint8_t distance_string[15] = "0.0";
 uint8_t ns_string[2] = " ";
 uint8_t ew_string[2] = " ";
@@ -18,6 +19,8 @@ uint32_t coordinates_num = 1;
 float distance = 0;
 
 uint16_t mode = IDLE;
+uint8_t heartbeat = 0;
+uint32_t filled = 0;
 
 void enable_interrupts();
 float calculate_distance (const float x[2], const float y[2]);
@@ -49,8 +52,6 @@ int main()
     UART_printf("\n++End Init\n", UART0);
 #endif
 
-    EEPROM_Write(0, 2);
-
     // Main Program Loop
     while (1)
     {
@@ -58,11 +59,7 @@ int main()
         UART_printf("\n++Main Loop\n", UART0);
 #endif
 
-        if (gps_uart_fill_buffer(gps_input_buffer, UART1, GPS_MAXIMUM_BUFFER_SIZE) < 1) {
-            strcpy(gps_status_string, "NO MODULE");
-        }
-
-        update_display();
+        filled = gps_uart_fill_buffer(gps_input_buffer, UART1, GPS_MAXIMUM_BUFFER_SIZE);
 
 #ifdef DEBUG
         UART_printf("\n++End Main Loop\n", UART0);
@@ -104,6 +101,9 @@ void SysTick_Handler()
     UART_printf("\n++SysTick\n", UART0);
 #endif
 
+    heartbeat = !heartbeat;
+    sprintf(buffer_status_string, "%d", filled);
+
     if (mode == IDLE)
     {
         strcpy(mode_string, "IDLE     "); // changing the value Oled String
@@ -116,11 +116,13 @@ void SysTick_Handler()
 
         if (Gps_Parse(gps_input_buffer, &point))
         {
-            strcpy(gps_status_string, "Valid    ");
+            strcpy(gps_status_string, "Valid      ");
         }
         else
         {
-            strcpy(gps_status_string, "Not Valid");
+            strcpy(gps_status_string, "Not Valid  ");
+            if (filled < 100)
+                strcpy(gps_status_string, "Check Wires");
         }
     }
 
@@ -173,6 +175,8 @@ void SysTick_Handler()
         }
     }
 
+    update_display();
+
 #ifdef DEBUG
     UART_printf("\n++End SysTick\n", UART0);
 #endif
@@ -195,9 +199,13 @@ void update_display()
     OLED_I2C_Write(10 * 6, 4, latitude_string);
     OLED_I2C_Write(20 * 6, 4, ns_string);
 
-    OLED_I2C_Write(0, 6, "Longitude: ");
-    OLED_I2C_Write(10 * 6, 6, longitude_string);
-    OLED_I2C_Write(20 * 6, 6, ew_string);
+    OLED_I2C_Write(0, 5, "Longitude: ");
+    OLED_I2C_Write(10 * 6, 5, longitude_string);
+    OLED_I2C_Write(20 * 6, 5, ew_string);
+
+    OLED_I2C_Write(0, 7, "Buffer: ");
+    OLED_I2C_Write(8*6, 7, buffer_status_string);
+    OLED_I2C_Write(120, 7, heartbeat ? "." : " ");
 }
 
 float calculate_distance (const float x[2], const float y[2]){

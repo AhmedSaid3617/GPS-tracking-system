@@ -13,17 +13,17 @@ uint8_t ns_string[2] = " ";
 uint8_t ew_string[2] = " ";
 
 uint8_t gps_input_buffer[GPS_MAXIMUM_BUFFER_SIZE] = " ";
-float coordinates[RAM_MAX_COORDINATES][2] = {1};
+double coordinates[RAM_MAX_COORDINATES][2] = {1};
 
 uint32_t coordinates_num = 1;
-float distance = 0;
+double distance = 0;
 
 uint16_t mode = IDLE;
 uint8_t heartbeat = 0;
 uint32_t filled = 0;
 
 void enable_interrupts();
-float calculate_distance(const float x[2], const float y[2]);
+double calculate_distance(const double x[2], const double y[2]);
 void update_display();
 
 int main()
@@ -146,11 +146,15 @@ void SysTick_Handler()
                 coordinates[coordinates_num][1] = point.longitude;
                 coordinates_num++;
 
-                if (coordinates_num > 1)
+                if (coordinates_num > 5)
                 {
-                    float delta = calculate_distance(coordinates[coordinates_num], coordinates[coordinates_num - 1]);
-                    if (delta > DISTANCE_THRESHOLD)
+                    float delta = calculate_distance(coordinates[coordinates_num - 1], coordinates[coordinates_num - 2]);
+
+                    if (delta > DISTANCE_MIN_THRESHOLD && delta < DISTANCE_MAX_THRESHOLD) {
                         distance += delta;
+                    } else {
+                        coordinates_num--;
+                    }
 
                     float_to_string(distance, distance_string);
                 }
@@ -212,13 +216,17 @@ void update_display()
     OLED_I2C_Write(120, 7, heartbeat ? "." : " ");
 }
 
-float calculate_distance(const float x[2], const float y[2])
+double calculate_distance(const double x[2], const double y[2])
 {
     double sum = 0;
-    sum += 2 * 6371 * asin(sqrt(pow(sin((x[0] - y[0]) * (M_PI / 360)), 2) + cos(x[0] * (M_PI / 180)) * cos(y[0] * (M_PI / 180)) * pow(sin((y[1] - x[1]) * (M_PI / 360)), 2)));
+    sum += 2 * 6371 * 1000 * asin(sqrt(pow(sin((x[0] - y[0]) * (M_PI / 360)), 2) + cos(x[0] * (M_PI / 180)) * cos(y[0] * (M_PI / 180)) * pow(sin((y[1] - x[1]) * (M_PI / 360)), 2)));
 
 #ifdef DEBUG
     UART_printf("\n++Change in distance\n", UART0);
+    UART0_print_float(x[0]);
+    UART0_print_float(x[1]);
+    UART0_print_float(y[0]);
+    UART0_print_float(y[1]);
     UART0_print_float(sum);
     UART_printf("\n++End Change in distance\n", UART0);
 #endif

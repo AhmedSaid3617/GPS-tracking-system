@@ -14,13 +14,14 @@
 #include "utils.h"
 #include "tm4c123gh6pm.h"
 
-#define RAM_MAX_COORDINATES 1000
+#define RAM_MAX_COORDINATES 250
 #define EEPROM_MAX_COORDINATES 250
 
-#define DISTANCE_THRESHOLD 1.5
-#define GPS_MAXIMUM_BUFFER_SIZE 250
+#define DISTANCE_MIN_THRESHOLD 1
+#define DISTANCE_MAX_THRESHOLD 50
+#define GPS_MAXIMUM_BUFFER_SIZE 500
 
-//#define DEBUG
+#define DEBUG
 
 typedef enum StateTypeDef
 {

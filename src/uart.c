@@ -212,12 +212,30 @@ void UART_printf(char *buffer, uint32_t UART_base)
 }
 
 
+void ftostr(float number, char* str, int precision) {
+    int whole = (int)number;
+    float fraction = number - whole;
+    sprintf(str, "%d", whole);
+    while (*str != '\0') {
+        str++;
+    }
+    *str++ = '.';
+    while (precision > 0) {
+        fraction *= 10;
+        int digit = (int)fraction;
+        *str++ = '0' + digit;
+        fraction -= digit;
+        precision--;
+    }
+    *str++ = '\n';
+    *str = '\0';
+}
+
 void UART0_print_float(float num)
 {
   char output_buffer[15];
-  int first = (int)num;
-  int second = (num - first) * 1000000;
-  sprintf(output_buffer, "%d.%06d\n", first, second);
+
+  ftostr(num, output_buffer, 9);
   
   UART_printf(output_buffer, UART0);
 }

@@ -233,9 +233,9 @@ void ftostr(float number, char* str, int precision) {
 
 void UART0_print_float(float num)
 {
-  char output_buffer[15];
+  char output_buffer[20];
 
-  ftostr(num, output_buffer, 9);
+  ftostr(num, output_buffer, 10);
   
   UART_printf(output_buffer, UART0);
 }

@@ -63,6 +63,7 @@ int main()
 
 #ifdef DEBUG
         UART_printf("\n++End Main Loop\n", UART0);
+        UART0_print_float(coordinates_num);
 #endif
     }
 }

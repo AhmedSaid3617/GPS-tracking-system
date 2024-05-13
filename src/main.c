@@ -46,28 +46,33 @@ int main()
     enable_interrupts();
 
 #ifdef DEBUG
-    UART_printf("\n=========End Init=========\n", UART0);
+    UART_printf("\n++End Init\n", UART0);
 #endif
+
+    EEPROM_Write(0, 2);
 
     // Main Program Loop
     while (1)
     {
 #ifdef DEBUG
-        UART_printf("\n=========Main Loop=========\n", UART0);
+        UART_printf("\n++Main Loop\n", UART0);
 #endif
 
-        gps_uart_fill_buffer(gps_input_buffer, UART1, GPS_MAXIMUM_BUFFER_SIZE);
+        if (gps_uart_fill_buffer(gps_input_buffer, UART1, GPS_MAXIMUM_BUFFER_SIZE) < 1) {
+            strcpy(gps_status_string, "NO MODULE");
+        }
+
         update_display();
 
 #ifdef DEBUG
-        UART_printf("\n=========End Main Loop=========\n", UART0);
+        UART_printf("\n++End Main Loop\n", UART0);
 #endif
     }
 }
 
 void UART0_IRQHandler() {
 #ifdef DEBUG
-    UART_printf("\n=========UART0_IRQHandler=========\n", UART0);
+    UART_printf("\n++UART0_IRQHandler\n", UART0);
 #endif
 
     UART0_ICR_R |= 1 << 4; // Acknowledge
@@ -76,10 +81,19 @@ void UART0_IRQHandler() {
     uint8_t in;
     UART_ReceiveByte(UART0, &in);
 
-//    UART_SendByte(UART0, in);
+    if (in == 'U' || in == 'u')
+    {
+        strcpy(mode_string, "READING"); // Display waiting message.
+        OLED_clear_display();
+        update_display();
+        EEPROM_read_coordniates(); // take the size of data saved in Epprom to iterate over Epprom
+    }
+
+    // To empty FIFO, this assumes exactly 2 characters are sent! (No Line Ending)
+    UART_ReceiveByte(UART0, &in);
 
 #ifdef DEBUG
-    UART_printf("\n=========End UART0_IRQHandler=========\n", UART0);
+    UART_printf("\n++End UART0_IRQHandler\n", UART0);
 #endif
 
 }
@@ -87,33 +101,17 @@ void UART0_IRQHandler() {
 void SysTick_Handler()
 {
 #ifdef DEBUG
-    UART_printf("\n============SysTick========\n", UART0);
+    UART_printf("\n++SysTick\n", UART0);
 #endif
 
     if (mode == IDLE)
     {
         strcpy(mode_string, "IDLE     "); // changing the value Oled String
-        uint8_t data;
-        if (UART_ReceiveByte(UART0, &data))
-        { // read what in the UART and change the value in the data
-            if (data == 'U')
-            {
-                strcpy(mode_string, "READING"); // Display waiting message.
-                OLED_clear_display();
-                update_display();
-                EEPROM_read_coordniates(); // take the size of data saved in Epprom to iterate over Epprom
-            }
-        }
+
         if (read_sw1())
         {
             OLED_clear_display();
             mode = RECORDING; // change mode to 1 if switch is on
-        }
-
-        // TODO: REMOVE THIS
-        if (read_sw2())
-        {
-            //EEPROM_read_coordniates();
         }
 
         if (Gps_Parse(gps_input_buffer, &point))
@@ -143,24 +141,19 @@ void SysTick_Handler()
                 coordinates[coordinates_num][0] = point.latitude; // Save new point.
                 coordinates[coordinates_num][1] = point.longitude;
                 coordinates_num++;
+
                 if (coordinates_num > 1) {
                     float delta = calculate_distance(coordinates[coordinates_num], coordinates[coordinates_num - 1]);
-                    UART_printf("+++++++++++++++====", UART0);
-                    UART0_print_float(delta);
                     if (delta > DISTANCE_THRESHOLD)
                         distance += delta;
 
                     float_to_string(distance, distance_string);
                 }
             }
-
-
         }
         else
         {
             strcpy(gps_status_string, "Not Valid ");
-            /* strcpy(latitude_string, "          ");
-            strcpy(longitude_string, "          "); */
         }
         if (read_sw1())
         {
@@ -181,7 +174,7 @@ void SysTick_Handler()
     }
 
 #ifdef DEBUG
-    UART_printf("\n============End SysTick========\n", UART0);
+    UART_printf("\n++End SysTick\n", UART0);
 #endif
 }
 
@@ -212,9 +205,9 @@ float calculate_distance (const float x[2], const float y[2]){
     sum += 2*6371*asin(sqrt(pow(sin((x[0]-y[0])*(M_PI/360)),2)+cos(x[0]*(M_PI/180))*cos(y[0]*(M_PI/180))*pow(sin((y[1]-x[1])*(M_PI/360)),2)));
 
 #ifdef DEBUG
-    UART_printf("\n======Change in distance=====\n", UART0);
+    UART_printf("\n++Change in distance\n", UART0);
     UART0_print_float(sum);
-    UART_printf("\n=====End Change in distance==========\n", UART0);
+    UART_printf("\n++End Change in distance\n", UART0);
 #endif
 
     return sum;

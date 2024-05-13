@@ -20,7 +20,7 @@
 #define DISTANCE_THRESHOLD 1.5
 #define GPS_MAXIMUM_BUFFER_SIZE 250
 
-#define DEBUG
+//#define DEBUG
 
 typedef enum StateTypeDef
 {

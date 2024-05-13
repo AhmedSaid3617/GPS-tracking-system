@@ -216,7 +216,7 @@ void UART0_print_float(float num)
 {
   char output_buffer[15];
   int first = (int)num;
-  int second = (num - first) * 100000;
+  int second = (num - first) * 1000000;
   sprintf(output_buffer, "%d.%06d\n", first, second);
   
   UART_printf(output_buffer, UART0);

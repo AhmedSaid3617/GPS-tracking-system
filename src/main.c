@@ -23,7 +23,7 @@ uint8_t heartbeat = 0;
 uint32_t filled = 0;
 
 void enable_interrupts();
-float calculate_distance (const float x[2], const float y[2]);
+float calculate_distance(const float x[2], const float y[2]);
 void update_display();
 
 int main()
@@ -67,32 +67,34 @@ int main()
     }
 }
 
-void UART0_IRQHandler() {
+void UART0_IRQHandler()
+{
 #ifdef DEBUG
     UART_printf("\n++UART0_IRQHandler\n", UART0);
 #endif
 
     UART0_ICR_R |= 1 << 4; // Acknowledge
 
-
-    uint8_t in;
-    UART_ReceiveByte(UART0, &in);
-
-    if (in == 'U' || in == 'u')
+    if (mode == IDLE)
     {
-        strcpy(mode_string, "READING"); // Display waiting message.
-        OLED_clear_display();
-        update_display();
-        EEPROM_read_coordniates(); // take the size of data saved in Epprom to iterate over Epprom
-    }
+        uint8_t in;
+        UART_ReceiveByte(UART0, &in);
 
-    // To empty FIFO, this assumes exactly 2 characters are sent! (No Line Ending)
-    UART_ReceiveByte(UART0, &in);
+        if (in == 'U' || in == 'u')
+        {
+            strcpy(mode_string, "READING"); // Display waiting message.
+            OLED_clear_display();
+            update_display();
+            EEPROM_read_coordniates(); // take the size of data saved in Epprom to iterate over Epprom
+        }
+
+        // To empty FIFO, this assumes exactly 2 characters are sent! (No Line Ending)
+        UART_ReceiveByte(UART0, &in);
+    }
 
 #ifdef DEBUG
     UART_printf("\n++End UART0_IRQHandler\n", UART0);
 #endif
-
 }
 
 void SysTick_Handler()
@@ -144,7 +146,8 @@ void SysTick_Handler()
                 coordinates[coordinates_num][1] = point.longitude;
                 coordinates_num++;
 
-                if (coordinates_num > 1) {
+                if (coordinates_num > 1)
+                {
                     float delta = calculate_distance(coordinates[coordinates_num], coordinates[coordinates_num - 1]);
                     if (delta > DISTANCE_THRESHOLD)
                         distance += delta;
@@ -182,7 +185,8 @@ void SysTick_Handler()
 #endif
 }
 
-void enable_interrupts() {
+void enable_interrupts()
+{
     UART0_IFLS_R = 0;
     __asm__("cpsie i");
 }
@@ -193,7 +197,7 @@ void update_display()
     OLED_I2C_Write(6 * 10, 0, gps_status_string);
 
     OLED_I2C_Write(0, 2, "Distance: ");
-    OLED_I2C_Write(10*5+4, 2, distance_string);
+    OLED_I2C_Write(10 * 5 + 4, 2, distance_string);
 
     OLED_I2C_Write(0, 4, "Latitude: ");
     OLED_I2C_Write(10 * 6, 4, latitude_string);
@@ -204,13 +208,14 @@ void update_display()
     OLED_I2C_Write(20 * 6, 5, ew_string);
 
     OLED_I2C_Write(0, 7, "Buffer: ");
-    OLED_I2C_Write(8*6, 7, buffer_status_string);
+    OLED_I2C_Write(8 * 6, 7, buffer_status_string);
     OLED_I2C_Write(120, 7, heartbeat ? "." : " ");
 }
 
-float calculate_distance (const float x[2], const float y[2]){
+float calculate_distance(const float x[2], const float y[2])
+{
     double sum = 0;
-    sum += 2*6371*asin(sqrt(pow(sin((x[0]-y[0])*(M_PI/360)),2)+cos(x[0]*(M_PI/180))*cos(y[0]*(M_PI/180))*pow(sin((y[1]-x[1])*(M_PI/360)),2)));
+    sum += 2 * 6371 * asin(sqrt(pow(sin((x[0] - y[0]) * (M_PI / 360)), 2) + cos(x[0] * (M_PI / 180)) * cos(y[0] * (M_PI / 180)) * pow(sin((y[1] - x[1]) * (M_PI / 360)), 2)));
 
 #ifdef DEBUG
     UART_printf("\n++Change in distance\n", UART0);

@@ -2,6 +2,7 @@
 
 #define SYSTEM_CLCK 16000000
 
+// UART0 with interrupt
 void UART0_Init(int Baud_rate)
 {
   // Enable the clock for UART0
@@ -38,6 +39,9 @@ void UART0_Init(int Baud_rate)
   UART0_IBRD_R = (int)(SYSTEM_CLCK / (Baud_rate * 16));
   UART0_FBRD_R = ((SYSTEM_CLCK / (Baud_rate * 16)) - (int)(SYSTEM_CLCK / (Baud_rate * 16))) * 64;
   UART0_LCRH_R = 0x70;  // Set data length to 8 bits        //one stop //fifos         // and no parity
+
+  UART0_IM_R |= (1 << 4);
+  NVIC_EN0_R |= (1 << 5);
   UART0_CTL_R |= 0x301; // Enable UART0
 }
 
@@ -185,7 +189,9 @@ uint16_t UART_ReceiveByte(uint32_t UART_base, uint8_t *destination)
     if ((*(volatile uint32_t *)(UART_base + 0x18) & 0x10) == 0) // Check if FIFO is full.
     {
       *destination = (char)(*(volatile uint32_t *)(UART_base + 0x00) & 0xFF); // Store received byte.
-      return (uint16_t)1;                                                     // Return success.
+#ifdef ECHO_TO_UART0
+      UART_SendByte(UART0, (char)(*(volatile uint32_t *)(UART_base + 0x00) & 0xFF));
+#endif
       return (uint16_t)1;                                                     // Return success.
     }
   }

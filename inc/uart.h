@@ -13,6 +13,8 @@
     #define UART6 0x40012000
     #define UART7 0x40013000
 
+    #define ECHO_TO_UART0
+
     void UART0_Init(int Baud_rate);
     void UART1_Init(int Baud_rate);
     void UART2_Init(int Baud_rate);

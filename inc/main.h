@@ -18,7 +18,14 @@
 #define EEPROM_MAX_COORDINATES 250
 
 #define DISTANCE_THRESHOLD 1.5
-#define EARTH_RADIUS_IN_METERS 6371000
-void oled_display_data();
+#define GPS_MAXIMUM_BUFFER_SIZE 250
+
+#define DEBUG
+
+typedef enum StateTypeDef
+{
+    IDLE = 1,
+    RECORDING
+} StateTypeDef;
 
 #endif //GPS_TRACKING_SYSTEM_MAIN_H

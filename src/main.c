@@ -13,17 +13,17 @@ uint8_t ns_string[2] = " ";
 uint8_t ew_string[2] = " ";
 
 uint8_t gps_input_buffer[GPS_MAXIMUM_BUFFER_SIZE] = " ";
-double coordinates[RAM_MAX_COORDINATES][2] = {1};
+float coordinates[RAM_MAX_COORDINATES][2] = {1};
 
 uint32_t coordinates_num = 1;
-double distance = 0;
+float distance = 0;
 
 uint16_t mode = IDLE;
 uint8_t heartbeat = 0;
 uint32_t filled = 0;
 
 void enable_interrupts();
-double calculate_distance(const double x[2], const double y[2]);
+float calculate_distance(const float x[2], const float y[2]);
 void update_display();
 
 int main()
@@ -217,7 +217,7 @@ void update_display()
     OLED_I2C_Write(120, 7, heartbeat ? "." : " ");
 }
 
-double calculate_distance(const double x[2], const double y[2])
+float calculate_distance(const float x[2], const float y[2])
 {
     double sum = 0;
     sum += 2 * 6371 * 1000 * asin(sqrt(pow(sin((x[0] - y[0]) * (M_PI / 360)), 2) + cos(x[0] * (M_PI / 180)) * cos(y[0] * (M_PI / 180)) * pow(sin((y[1] - x[1]) * (M_PI / 360)), 2)));

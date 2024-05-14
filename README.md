@@ -3,25 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Description</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        p {
-            margin-bottom: 10px;
-        }
-        ol {
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-    </style>
 </head>
 <body>
     <h1>Project Description</h1>

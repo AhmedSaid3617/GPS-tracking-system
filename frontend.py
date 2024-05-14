@@ -16,6 +16,7 @@ ser = serial.Serial(serial_port, baud_rate, timeout=0.5)
 result = list()
 
 for i in range(2):
+    result = list()
     ser.write(b'U ')
     while True:
         # Read data from the serial port

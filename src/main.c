@@ -41,6 +41,7 @@ int main()
 
     coordinates_num = 0;
     distance = 0;
+    filled = 0;
 
     strcpy(gps_status_string, "STARTING");
     update_display(); // Display STARTING message.

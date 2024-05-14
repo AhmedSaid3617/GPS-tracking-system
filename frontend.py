@@ -15,14 +15,15 @@ ser = serial.Serial(serial_port, baud_rate, timeout=0.5)
 
 result = list()
 
-ser.write(b'U ')
-while True:
-    # Read data from the serial port
-    line = ser.readline().decode('utf-8').strip()
-    print(line)
-    if not line:
-        break
-    result.append(line)
+for i in range(2):
+    ser.write(b'U ')
+    while True:
+        # Read data from the serial port
+        line = ser.readline().decode('utf-8').strip()
+        print(line)
+        if not line:
+            break
+        result.append(line)
 
 points = list()
 
@@ -41,8 +42,12 @@ for i in range(len(points)):
         continue
     elif i == len(points)-1:
         folium.Marker(points[i], popup='End Point', icon=folium.Icon(color='red')).add_to(my_map)
-    folium.PolyLine(locations=[points[i-1], points[i]], color='grey', dash_array='5, 5').add_to(my_map)
-    main_distance += haversine(points[i-1], points[i])
+
+    if i != 0:
+        distance = haversine(points[i-1], points[i])
+        if distance < 0.015:
+            folium.PolyLine(locations=[points[i-1], points[i]], color='grey', dash_array='5, 5').add_to(my_map)
+            main_distance += haversine(points[i-1], points[i])
 
 folium.PolyLine(locations=[points[0], points[-1]], color='black', dash_array='5, 5').add_to(my_map)
 

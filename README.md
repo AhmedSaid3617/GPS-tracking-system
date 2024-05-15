@@ -13,5 +13,51 @@
         <li>When the destination point is reached the built-in LED of the launchpad should be turned on.</li>
         <li>The system should check for UART commands from the PC and if the PC sends the command ‘U’ then the system should send the stored trajectory to the PC.</li>
     </ol>
+
+
+    <p>EEPROM</p>
+    <ol>
+        <li>The default for any program is that the run time data is saved in the RAM, which is a volatile memory, so as the we cut the power from the kit data is lost.</li>
+        <li>Sometimes there are critical data that shouldn't be lost even if the power is off, so we need a type of Non volatile memory to hold this important data.</li>
+        <li>
+        EEPROM (Electrically Erasable Programmable Read-Only Memory) is crucial in Arm processors for non-volatile storage. It retains data even when power is off, making it ideal for storing configuration settings, calibration data, and user preferences. Additionally, its execute-while-write capability allows real-time updates without interrupting system operation
+        </li>
+
+        <li> We used the EEPROM of the TivaC kit we have by writing a driver from scratch to be able to fully control the EEPROM and save the Coordinates we parse from the GPS module in the EEPROM inorder to prevent this data from loss if the power was turned off from the kit</li>
+    </ol>
+
+
+         <h3>Functions of the driver and there usage:</h3>
+
+         <table>
+            <tr>
+                <th>Function</th>
+                <th>Usage</th>
+            </tr>
+
+            <tr>
+                <td>unsigned long EEPROM_Read(int address)</td>
+                <td>Read data of a certain address of the EEPROM</td>
+            </tr>
+
+            <tr>
+                <td>void EEPROM_Write(unsigned int address, unsigned long value)</td>
+                <td>Saves a certain value in a certain adress of the EEPROM</td>
+            </tr>
+
+            <tr>
+                <td>EEPROM_Init_Status EEPROM_Init()</td>
+                <td>------------</td>
+            </tr>
+
+             <tr>
+                <td>EEPROM_write_array(float coordinates[][2],unsigned long number_of_saved_reading)</td>
+                <td>Saves the array of coordinates the module gets in contiguous locations starting by the number of saved Coordinates  </td>
+            </tr>
+
+            <tr>
+                <td>unsigned long EEPROM_read_coordniates()</td>
+                <td>Reads the saved array of coordinates saved in the EEPROM</td>
+            </tr>
 </body>
 </html>

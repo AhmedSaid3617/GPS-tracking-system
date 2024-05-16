@@ -20,7 +20,7 @@ Other functions required by the system:
 |--------------------------------------------------|--------------------------------------------------------------|
 | unsigned long EEPROM_Read(int address)          | Read data of a certain address of the EEPROM                 |
 | void EEPROM_Write(unsigned int address, unsigned long value) | Saves a certain value in a certain address of the EEPROM |
-| EEPROM_Init_Status EEPROM_Init()                 | -------------------------------------------------------------|
+| EEPROM_Init_Status EEPROM_Init()                 | Initializes the EEPROM of the kit|
 | EEPROM_write_array(float coordinates[][2], unsigned long number_of_saved_reading) | Saves the array of coordinates the module gets in contiguous locations starting by the number of saved Coordinates |
 | unsigned long EEPROM_read_coordinates()          | Reads the saved array of coordinates saved in the EEPROM     |
 

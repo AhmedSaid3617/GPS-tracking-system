@@ -1,11 +1,59 @@
-# Project Description
+# GPS Tracker Project
 
-The goal of this project is to develop an embedded system using C programming that gathers real-time positional coordinates while a microcontroller is in motion (GPS tracking system using TM4C123G LaunchPad) after power-on until a destination point is reached. The collected data will then be efficiently transferred to a personal computer (PC) and visualized on a map application.
+## Introduction
 
-Other functions required by the system:
+Welcome to the GPS Tracker Project! This project involves developing a GPS tracking system implemented on the Tiva C evaluation kit using C. The system records GPS coordinates, stores them in EEPROM, and retrieves them later to be displayed on a map using a custom Python script. This project showcases various functionalities including GPS data parsing, distance calculation, and data visualization.
 
-1. When the destination point is reached the built-in LED of the launchpad should be turned on.
-2. The system should check for UART commands from the PC and if the PC sends the command ‘U’ then the system should send the stored trajectory to the PC.
+## Functional Description
+
+### Overview
+
+The GPS Tracker operates in two main modes: IDLE mode and RECORDING mode. Each mode leverages custom drivers and functions to interact with various peripherals and process GPS data efficiently.
+
+### Modes of Operation
+
+1. **IDLE Mode**
+   - **Functionality**: In this mode, the system continuously parses data received from the GPS module.
+   - **Display**: It indicates whether the parsed GPS data is valid or invalid on the OLED screen.
+   - **Components Involved**: 
+     - **GPS Data Parsing**: Utilizes custom functions to extract and verify GPS data.
+     - **OLED Display**: Shows the status of the GPS data (valid/invalid).
+
+2. **RECORDING Mode**
+   - **Functionality**: This mode is activated to record GPS coordinates.
+   - **Data Storage**: The coordinates are stored in the EEPROM.
+   - **Distance Calculation**: The system calculates the distance covered based on the recorded coordinates.
+   - **Components Involved**:
+     - **GPS Data Parsing**: Continuously extracts coordinates from the GPS data.
+     - **EEPROM Storage**: Saves the parsed coordinates for future retrieval.
+     - **Distance Calculation**: Computes the distance traveled using the stored coordinates.
+
+### Custom Drivers
+
+The project includes custom drivers for efficient hardware interaction:
+- **GPIO Driver**: Manages general-purpose input/output operations.
+- **UART Driver**: Handles communication with the GPS module.
+- **Systick Timer Driver**: Provides timing functionalities for the system.
+- **EEPROM Driver**: Manages read and write operations for data storage.
+- **I2C Driver**: Facilitates communication with the OLED screen and other I2C devices.
+- **OLED Screen Driver**: Manages display operations for the OLED screen.
+
+### Python Script for Data Visualization
+
+A Python script is provided to retrieve the stored GPS coordinates from the EEPROM and display them on a map. This script offers a visual representation of the tracked path, enhancing the usability of the GPS tracker.
+
+### How to Use
+
+1. **Compile and Upload**: Compile the C code and upload it to the Tiva C evaluation kit.
+2. **Connect GPS Module**: Ensure the GPS module is properly connected to the UART interface.
+3. **Switch Modes**: Push switch 1 to switch from IDLE to RECORDING mode, push it again to stop recording, save coordinates to EEPROM and go back to IDLE mode.
+4. **Retrieve Data**: Use the Python script to retrieve and visualize the recorded GPS coordinates on a map.
+
+This README serves as an introductory guide to understanding and utilizing the GPS Tracker Project. For detailed information on implementation and usage, please refer to the provided documentation and source code comments.
+
+
+## Drivers
+The following is a top-level discription of drivers developed in this project and their uses.
 
 ## EEPROM
 

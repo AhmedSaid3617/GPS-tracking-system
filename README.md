@@ -15,14 +15,14 @@ Other functions required by the system:
 4. We used the EEPROM of the TivaC kit we have by writing a driver from scratch to be able to fully control the EEPROM and save the Coordinates we parse from the GPS module in the EEPROM in order to prevent this data from loss if the power was turned off from the kit.
 
 ### Functions of the driver and their usage:
-
-| Function                                         | Usage                                                        |
-|--------------------------------------------------|--------------------------------------------------------------|
-| unsigned long EEPROM_Read(int address)          | Read data of a certain address of the EEPROM                 |
-| void EEPROM_Write(unsigned int address, unsigned long value) | Saves a certain value in a certain address of the EEPROM |
-| EEPROM_Init_Status EEPROM_Init()                 | Initializes the EEPROM of the kit|
-| EEPROM_write_array(float coordinates[][2], unsigned long number_of_saved_reading) | Saves the array of coordinates the module gets in contiguous locations starting by the number of saved Coordinates |
-| unsigned long EEPROM_read_coordinates()          | Reads the saved array of coordinates saved in the EEPROM     |
+| Function                                             | Description                                                                                                         | Parameters                                                                                            | Usage                                                                       |
+|------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `EEPROM_Init()`                                     | Initializes the EEPROM module for communication.                                                                   | None                                                                                                  | Call this function to initialize the EEPROM module for communication.       |
+| `EEPROM_Set_Block_And_Offset(unsigned int block, unsigned int offset)` | Prepares the EEPROM for writing or reading data at a specific block and offset.                                     | `block`: Block number for EEPROM access.<br> `offset`: Offset within the block for EEPROM access.   | Call this function to set the block and offset for EEPROM access.           |
+| `EEPROM_Read(int address)`                          | Reads a 32-bit value from the specified pseudo-address in EEPROM.                                                   | `address`: Pseudo-address in EEPROM (4 bytes), min 0, max 512.                                        | Call this function to read data from the specified pseudo-address in EEPROM. |
+| `EEPROM_Write(unsigned int address, unsigned long value)` | Writes a 32-bit value to the specified pseudo-address in EEPROM.                                                    | `address`: Pseudo-address in EEPROM (4 bytes), min 0, max 512.<br>`value`: 32-bit value to be written. | Call this function to write data to the specified pseudo-address in EEPROM.   |
+| `EEPROM_write_array(float coordinates[][2],unsigned long number_of_saved_reading)` | Writes an array of coordinates to EEPROM.                                                                          | `coordinates`: 2D array of coordinates to be written.<br>`number_of_saved_reading`: Number of readings to be saved. | Call this function to write an array of coordinates to EEPROM.               |
+| `EEPROM_read_coordniates()`                         | Reads the coordinates stored in EEPROM.                                                                             | None                                                                                                  | Call this function to read the coordinates stored in EEPROM.                |
 
 
 ## I2C

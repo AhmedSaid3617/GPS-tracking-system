@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to the GPS Tracker Project! This project involves developing a GPS tracking system implemented on the Tiva C evaluation kit using C. The system records GPS coordinates, stores them in EEPROM, and retrieves them later to be displayed on a map using a custom Python script. This project showcases various functionalities including GPS data parsing, distance calculation, and data visualization.
+This project involves developing a GPS tracking system implemented on the Tiva C evaluation kit using C. The system records GPS coordinates, stores them in EEPROM, and retrieves them later to be displayed on a map using a custom Python script. This project showcases various functionalities including GPS data parsing, distance calculation, and data visualization.
 
 ## Functional Description
 
